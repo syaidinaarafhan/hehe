@@ -1,29 +1,29 @@
-import {
-    useToast,
-    FormControl,
-    FormLabel,
-    Input,
-    Button,
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalBody,
-    ModalCloseButton,
-    Box, VStack, Image
-  } from "@chakra-ui/react";
-import { useFormik } from "formik";
-import { useCreateProduct } from "@/pages/features/Mutate/useCreateTransaksi";
-import { useEffect, useState } from "react";
-import { axiosInstance } from "@/lib/axios";
-import { useRouter } from "next/router";
+import { Formik, Field, Form, ErrorMessage } from 'formik';
+import { Button, FormControl, FormLabel, Input, 
+  Text, Box, VStack, Modal, Image, 
+  useToast, ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalCloseButton, } from '@chakra-ui/react';
+import { axiosInstance } from '@/lib/axios';
+import { useEffect, useState } from 'react';
 import { HamburgerIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
+import Card from "@/components/card";
+import ReceiptModal from "@/components/receipt";
+import { useRouter } from 'next/router';
+import { useFormik } from "formik";
+import { useOfflineTransaksi } from '../../Mutate/useOfflineTransaksi';
   
   export default function InsertCard() {
 
     const router = useRouter()
 
     const [isiKartu, setIsiKartu] = useState(null);
+
+    const handleFormInput = (event) => {
+      formik.setFieldValue(event.target.name, event.target.value);
+    };
 
     const [wrongPinAttempts, setWrongPinAttempts] = useState(0);
 
@@ -37,19 +37,15 @@ import { HamburgerIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
         });
     }, []);
 
-  const pin1 = isiKartu?.pin ?? 'Data gaada'
+    const pin1 = isiKartu?.pin ?? 'Data gaada'
 
     const toast = useToast();
+
     const [isModalOpen, setModalOpen] = useState(false);
-  
-    const handleFormInput = (event) => {
-      formik.setFieldValue(event.target.name, event.target.value);
-    };
-  
+
     const formik = useFormik({
       initialValues: {
-        totalHarga: "",
-        pin: "",
+        amount: "",
       },
       onSubmit: async (values) => {
         if (!formik.values.pin) {
@@ -71,10 +67,10 @@ import { HamburgerIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
           status: "error",
         });
       }
-         }else{
-          const { totalHarga} = formik.values;
+        }else{
+          const { amount} = formik.values;
         CreateProduct({
-          totalHarga: parseInt(totalHarga),
+          amount: parseInt(amount),
         });
   
         toast({
@@ -82,45 +78,27 @@ import { HamburgerIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
           status: "success",
         });
         formik.setValues({
-          totalHarga: "",
-          pin: "",
+          amount: "",
         });
         setModalOpen(false);
-         }
+        }
       },
     });
 
     const [insertCardData, setReceiptData] = useState(null);
-  
-    const { mutate: CreateProduct, isLoading: createProductsIsLoading } =
-    useCreateProduct({
-      onSuccess: (receiptData) => {
-        console.log("Data Receipt:", receiptData);
-        setReceiptData(receiptData.data.data);
-        refetchProducts();
-      },      
-    });
-
-    const ReceiptModal = ({ isOpen, onClose, modalReceiptData }) => (
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Receipt</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <p>{modalReceiptData ? modalReceiptData.kartu : 'Data tidak tersedia'}</p>
-            <p>traceNumber : {modalReceiptData ? modalReceiptData.traceNumber : 'Data tidak tersedia'}</p>
-            <p>Tanggal : {modalReceiptData ? modalReceiptData.date : 'Data tidak tersedia'}</p>
-            <p>refNumber : {modalReceiptData ? modalReceiptData.refNumber : 'Data tidak tersedia'}</p>
-            <p>Total Harga: {modalReceiptData ? modalReceiptData.totalHarga : 'Data tidak tersedia'}</p>
-            <Button onClick={() => onClose()}>OK</Button>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
-    );
+    
+      const { mutate: CreateProduct, isLoading: createProductsIsLoading } =
+      useOfflineTransaksi({
+        onSuccess: (receiptData) => {
+          console.log("Data Receipt:", receiptData);
+          setReceiptData(receiptData.data.data);
+          refetchProducts();
+        },      
+      });
   
     return (
       <>
+      <Card />
         <Box flexDirection="column" bg="black" pb="10" pt="7" pr={3} pl={3} m={100} w="auto">
           <VStack spacing={3} bg={"#cd6600"} p="-10">
             <Box boxSize="70%">
@@ -129,59 +107,67 @@ import { HamburgerIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
               />
             </Box>
 
-        <ReceiptModal
+        {/* <ReceiptModal
           isOpen={insertCardData !== null}
           onClose={() => {
             setReceiptData(0);
             router.push('/');
           }}
           modalReceiptData={insertCardData}
-        />
+        /> */}
       <Box pb="50%">
+      <Formik
+        initialValues={{ amount: '' }}
+        validate={(values) => {
+          const errors = {};
+          if (!values.amount) {
+            errors.amount = 'Required';
+          } else if (isNaN(values.amount)) {
+            errors.amount = 'Must be a number';
+          }
+          return errors;
+        }}
+      >
         <form onSubmit={(e) => {
-          e.preventDefault();
-          setModalOpen(true);
-        }}>
-          <FormControl pb="5">
-            <FormLabel>Harga</FormLabel>
-            <Input
-              type="number"
-              onChange={handleFormInput}
-              name="totalHarga"
-              id="totalHarga"
-              value={formik.values.totalHarga}
-            />
-          </FormControl>
-          {createProductsIsLoading ? (
-            <Spinner />
-          ) : (
-            <Button type="submit" bg="gray">Submit Product</Button>
-          )}
-        </form>
+            e.preventDefault();
+            setModalOpen(true);
+          }} >
+            <FormControl pb="5">
+              <FormLabel>Amount</FormLabel>
+              <Input
+                type="number"
+                onChange={handleFormInput}
+                name="amount"
+                id="amount"
+                value={formik.values.amount}
+              />
+            </FormControl>
+              <Button type="submit" bg="gray" >Submit Product</Button>
+          </form>
+      </Formik>
         </Box>
         <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Enter PIN</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <FormControl>
-                <FormLabel>PIN</FormLabel>
-                <Input
-                  type="password"
-                  onChange={handleFormInput}
-                  name="pin"
-                  id="pin"
-                  value={formik.values.pin}
-                />
-              </FormControl>
-              <Button type="button" onClick={formik.submitForm}>
-                Confirm
-              </Button>
-            </ModalBody>
-          </ModalContent>
-        </Modal>
-
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>Enter PIN</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                <FormControl>
+                  <FormLabel>PIN</FormLabel>
+                  <Input
+                    type="password"
+                    onChange={handleFormInput}
+                    name="pin"
+                    id="pin"
+                    value={formik.values.pin}
+                  />
+                </FormControl>
+                <Button type="button" onClick={formik.submitForm}>
+                  Confirm
+                </Button>
+              </ModalBody>
+            </ModalContent>
+          </Modal>
           </VStack>
           <Box display="flex" justifyContent="space-between" pt={4}>
             <ArrowLeftIcon color={"white"}></ArrowLeftIcon>
@@ -189,8 +175,6 @@ import { HamburgerIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
             <ArrowRightIcon color={"white"}></ArrowRightIcon>
           </Box>
         </Box>
-
-        <p>{pin1}</p>
       </>
     );
   }

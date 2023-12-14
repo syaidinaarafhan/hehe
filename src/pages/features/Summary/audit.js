@@ -27,11 +27,9 @@ export default function audit() {
             <Tabs>
                <Box display="flex" flexDirection="column">
                 <TabList>
-
-                Kartu: {transaction.kartu}
-                Total Harga: {transaction.totalHarga}
-                Trace Number : {transaction.traceNumber},
-                
+                  <div>Kartu: {transaction.kartu}</div>
+                  <div>Total Harga: {transaction.totalHarga}</div>
+                  <div>Trace Number : {transaction.traceNumber},</div>
                 </TabList>
                 </Box>
             </Tabs>

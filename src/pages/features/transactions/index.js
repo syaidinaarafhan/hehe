@@ -1,9 +1,11 @@
-import { Container, Heading, Link, Button, Box, Image, VStack} from "@chakra-ui/react";
+import { Container, Heading, Link, Button, Box, Image, VStack, Toast} from "@chakra-ui/react";
 import { HamburgerIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
+import Card from "@/components/card";
 
 export default function index() {
     return (
         <>
+        <Card />
           <Box display="flex" flexDirection="column" bg="black" pb="10" pt="7" pr={3} pl={3} m={100} w="auto">
             <VStack spacing={3} bg={"#cd6600"} p="-10">
           <Box boxSize="70%">
@@ -15,10 +17,10 @@ export default function index() {
                 <Link href = "insertC/cardV">Sale</Link>
               </Button>
               <Button colorScheme='gray' variant='ghost' mb="10px">
-                <Link href = "transactions/OpenCard/cardO">Open Card</Link>
+                <Link href = "transactions/OpenCard/openCard">Open Card</Link>
               </Button>
               <Button colorScheme='gray' variant='ghost' mb="10px">
-                <Link href = "transactions/Offline/cardO">Offline</Link>
+                <Link href = "transactions/Offline/approvalC">Offline</Link>
               </Button>
               <Button colorScheme='gray' variant='ghost' mb="10px">
                 <Link href = "transactions/Release/cardR">Release</Link>

@@ -36,7 +36,7 @@ export default function setPass() {
             title: "Password Benar!!",
             status: "success",
           });
-            router.push('settlement');
+            router.push('unsettle');
         }else{
           setPinValid(false);
           toast({

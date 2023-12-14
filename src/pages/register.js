@@ -1,4 +1,5 @@
 import { axiosInstance } from '@/lib/axios';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 export default function register() {
@@ -6,11 +7,13 @@ export default function register() {
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [registrationResult, setRegistrationResult] = useState(null);
+    const route = useRouter();
 
   const handleRegister = async () => {
     try {
       const response = await axiosInstance.post('/register', { name, password });
       setRegistrationResult(response.data);
+      route.push('/');
     } catch (error) {
       console.error('Error during registration:', error);
       setRegistrationResult({ success: false, error: 'Registration Failed' });

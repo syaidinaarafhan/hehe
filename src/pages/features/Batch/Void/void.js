@@ -49,10 +49,11 @@ export default function Void() {
 
     const transactionData = async () => {
       try {
-        const response = await fetch(`http://localhost:2000/transaksis/find/${transaction?.traceNumber}`);
-        const transactionData = await response.json();
+        const response = await axiosInstance.get(`/find/${transaction?.traceNumber}`);
+        console.log(response);
+        const transactionData = response.data;
+
         setTransaction(transactionData);
-  
         setModalOpen(true);
       } catch (error) {
         console.error("Error fetching transaction data:", error);
@@ -100,7 +101,6 @@ export default function Void() {
             <ModalFooter>
               <Button onClick={() => {
                 setModalOpen(false);
-                router.push('/');
               }}>Close</Button>
             </ModalFooter>
           </ModalContent>

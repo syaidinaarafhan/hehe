@@ -10,7 +10,7 @@ tanstack-query -> manage api calls (cahcing, state, dll);
 */
 
 export default function Home() {
-const [transaksis, setTransaksis] = useState([]);
+const [transaksis, setTransaksis] = useState(null);
 
 const fetchTransaksi = async () =>{
   try {

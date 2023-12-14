@@ -20,7 +20,10 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import QRCode from 'qrcode.react';
 import { HamburgerIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
-  
+import Card from "@/components/card";
+import ReceiptModal from "@/components/receipt";
+
+
   export default function InsertCard() {
 
     const router = useRouter()
@@ -95,27 +98,10 @@ import { HamburgerIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
         refetchProducts();
       },
     });
-
-    const ReceiptModal = ({ isOpen, onClose, modalReceiptData }) => (
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Receipt</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <p>{modalReceiptData ? modalReceiptData.kartu : 'Data tidak tersedia'}</p>
-            <p>traceNumber: {modalReceiptData ? modalReceiptData.traceNumber : 'Data tidak tersedia'}</p>
-            <p>Tanggal: {modalReceiptData ? modalReceiptData.date : 'Data tidak tersedia'}</p>
-            <p>refNumber: {modalReceiptData ? modalReceiptData.refNumber : 'Data tidak tersedia'}</p>
-            <p>Total Harga: {modalReceiptData ? modalReceiptData.totalHarga : 'Data tidak tersedia'}</p>
-            <Button onClick={() => onClose()}>OK</Button>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
-    );
   
     return (
       <>
+      <Card/>
         <Box display="flex" flexDirection="column" bg="black" pb="10" pt="7" pr={3} pl={3} m={100} w="auto">
           <VStack spacing={3} bg={"#cd6600"} p="-10">
           <Box boxSize="70%">
@@ -129,7 +115,7 @@ import { HamburgerIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
         isOpen={isReceiptOpen}
         onClose={() => {
           setReceiptData(0);
-          router.push('/');
+          router.push('/dashboard');
         }}
         modalReceiptData={insertCardData}
       />
@@ -141,7 +127,7 @@ import { HamburgerIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
   <Box pb="50%">
       <form onSubmit={formik.handleSubmit}>
         <FormControl pb="5">
-          <FormLabel>Harga</FormLabel>
+          <FormLabel>Amout</FormLabel>
           <Input
             type="number"
             onChange={handleFormInput}

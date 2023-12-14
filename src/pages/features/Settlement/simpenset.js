@@ -19,7 +19,7 @@ export default function Home() {
 
 const fetchTransaksi = async () =>{
   try {
-    const transaksiResponse = await axiosInstance.get("/settlement");
+    const transaksiResponse = await axiosInstance.get("/unsettle");
     setTransaksis(transaksiResponse.data);
   } catch (error) {
     console.log(error);
@@ -34,30 +34,30 @@ useEffect(() => {
   fetchTransaksi();
 }, []);
 
-const handlePrevPage = () => {
-  if (currentPage > 1) {
-    setCurrentPage(currentPage - 1);
-  }
-};
+// const handlePrevPage = () => {
+//   if (currentPage > 1) {
+//     setCurrentPage(currentPage - 1);
+//   }
+// };
 
-const handleNextPage = () => {
-  const totalPages = Math.ceil(transaksis.length / ITEMS_PER_PAGE);
-  if (currentPage < totalPages) {
-    setCurrentPage(currentPage + 1);
-  }
-};
+// const handleNextPage = () => {
+//   const totalPages = Math.ceil(transaksis.length / ITEMS_PER_PAGE);
+//   if (currentPage < totalPages) {
+//     setCurrentPage(currentPage + 1);
+//   }
+// };
 
-const renderTabs = () => {
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const endIndex = startIndex + ITEMS_PER_PAGE;
-  const visibleTransaksis = transaksis.slice(startIndex, endIndex);
+// const renderTabs = () => {
+//   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+//   const endIndex = startIndex + ITEMS_PER_PAGE;
+//   const visibleTransaksis = transaksis.slice(startIndex, endIndex);
 
-  return visibleTransaksis.map((transaksi) => (
-    <Tab key={transaksi.id} onClick={() => handleTabClick(transaksi.id)}>
-      {transaksi.id}
-    </Tab>
-  ));
-};
+//   return visibleTransaksis.map((transaksi) => (
+//     <Tab key={transaksi.id} onClick={() => handleTabClick(transaksi.id)}>
+//       {transaksi.id}
+//     </Tab>
+//   ));
+// };
 
 const renderTransaksiDetails = () => {
   if (!selectedTab) {
@@ -84,18 +84,18 @@ const renderTransaksiDetails = () => {
 
   return (
     <>
-          <Button onClick={handlePrevPage} disabled={currentPage === 1}>
+          {/* <Button onClick={handlePrevPage} disabled={currentPage === 1}>
               Prev
             </Button>
             <Button onClick={handleNextPage} disabled={currentPage === Math.ceil(transaksis.length / ITEMS_PER_PAGE)}>
               Next
-            </Button>
+            </Button> */}
           <Tabs>
-          <TabList>{renderTabs()}</TabList>
+          {/* <TabList>{renderTabs()}</TabList> */}
             <TabList>{renderTransaksiDetails()}</TabList>
           </Tabs>
           <Button>
-      <Link href="/">Back</Link>
+      <Link href="/dashboard">Back</Link>
     </Button>
     </>
   )

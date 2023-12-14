@@ -1,33 +1,30 @@
-import { useState } from "react";
-import { Button, FormControl, FormLabel, 
-  Input, Modal, ModalOverlay, ModalContent, ModalHeader, 
-  ModalCloseButton, ModalBody, ModalFooter,
+import { useState, useEffect } from "react";
+import { Button, FormControl, FormLabel, Input, 
+  Modal, ModalOverlay, ModalContent, ModalHeader, 
+  ModalCloseButton, ModalBody, ModalFooter, 
   Box, Image, VStack,
 } from "@chakra-ui/react";
 import { Formik, Form, Field } from "formik";
 import { useRouter } from "next/router";
+import { axiosInstance } from "@/lib/axios";
 import { HamburgerIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
+import FindTransactionForm from "@/components/traceNumber";
 
-export default function Find() {
+export default function Void() {
+  const router = useRouter();
 
-    const router = useRouter();
-
-  const [transaction, setTransaction] = useState(null);
+  const [transactionData, setTransactionData] = useState(null);
   const [isModalOpen, setModalOpen] = useState(false);
 
-  const handleFormSubmit = async (values) => {
-    try {
-      const response = await fetch(`http://localhost:2000/transaksis/find/${values.traceNumber}`);
-      const transactionData = await response.json();
-      setTransaction(transactionData);
-
-      setModalOpen(true);
-    } catch (error) {
-      console.error("Error fetching transaction data:", error);
-    }
+  const handleTransactionFound = (data) => {
+    // Handle the found transaction data
+    setTransactionData(data);
+    setModalOpen(true);
   };
 
   return (
+<>
+
     <Box display="flex" flexDirection="column" bg="black" pb="10" pt="7" pr={3} pl={3} m={100} w="auto" h="550">
       <VStack spacing={3} bg={"#cd6600"} p="-10" pb={160}>
         <Box boxSize="70%">
@@ -36,21 +33,9 @@ export default function Find() {
           />
         </Box>
 
-    <div>
+        <FindTransactionForm onTransactionFound={handleTransactionFound} />
 
-      <Formik initialValues={{ traceNumber: "" }} onSubmit={handleFormSubmit}>
-        <Form>
-          <FormControl pb="5">
-            <FormLabel>traceNumber</FormLabel>
-            <Field name="traceNumber" as={Input} type="text" />
-          </FormControl>
-          <Button mt={4} colorScheme="gray" type="submit">
-            Find Transaction
-          </Button>
-        </Form>
-      </Formik>
-
-      {transaction && (
+        {transactionData && (
         <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
           <ModalOverlay />
           <ModalContent>
@@ -58,18 +43,16 @@ export default function Find() {
             <ModalCloseButton />
             <ModalBody>
               <h2>Transaction Found:</h2>
-              <pre>{JSON.stringify(transaction, null, 2)}</pre>
+              <pre>{JSON.stringify(transactionData, null, 2)}</pre>
             </ModalBody>
             <ModalFooter>
               <Button onClick={() => {
                 setModalOpen(false);
-                router.push('/');
               }}>Close</Button>
             </ModalFooter>
           </ModalContent>
         </Modal>
       )}
-    </div>
 
       </VStack>
       <Box display="flex" justifyContent="space-between" pt={4}>
@@ -78,6 +61,6 @@ export default function Find() {
             <ArrowRightIcon color={"white"}></ArrowRightIcon>
           </Box>
     </Box>
-
+    </>
   );
 }
