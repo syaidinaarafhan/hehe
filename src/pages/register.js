@@ -1,6 +1,9 @@
 import { axiosInstance } from '@/lib/axios';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import React from 'react';
+import regisPage from './regisPage';
+import {Link, Button, Box, VStack, Image, Container, Heading, Text, Grid, GridItem} from '@chakra-ui/react'
 
 export default function register() {
 
@@ -20,31 +23,95 @@ export default function register() {
     }
   };
     return(
+
+      
         <>
-        <div>
-      <h1>Register</h1>
-      <label>
-        Name:
-        <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-      </label>
+        <Box bg="gray.800" py={6} px={4} boxShadow="lg" width="100%">
+    <Container maxW="container.lg" textAlign="center">
+      <Heading color="darkgray">Register</Heading>
+    </Container>
+  </Box>
+  <div>
+     
+
+  <Box bg="#222935" p={5} style={{ display: 'flex', justifyContent: 'center'}}>
+  <VStack spacing={3} align="stretch" bg="#222935" p={5} justifyContent="center">
+    <form style={{ color: 'white', marginBottom: '8px', textAlign: 'center' }}>
+      Nama:
       <br />
-      <label>
-        Password:
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-      </label>
+      <input
+        type="text"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        style={{
+          padding: '8px',
+          borderRadius: '4px',
+          border: '1px solid #222935',
+          backgroundColor: 'gray.800',
+          borderColor: 'white',
+          color: 'white',
+          width: '100%', 
+          boxSizing: 'border-box', 
+          maxWidth: '80%', 
+        }}
+      />
+    </form>
+    <form style={{ color: 'white', marginBottom: '8px', textAlign: 'center' }}>
+      Password:
       <br />
-      <button onClick={handleRegister}>Register</button>
+      <input
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        style={{
+          padding: '8px',
+          borderRadius: '4px',
+          border: '1px solid #222935',
+          backgroundColor: 'gray.800',
+          borderColor: 'white',
+          color: 'white',
+          width: '100%', 
+          boxSizing: 'border-box', 
+          maxWidth: '80%', 
+        }}
+      />
+    </form>
+    
+
+<Button  onClick={handleRegister} colorScheme='gray' variant='ghost' color='gray' sx={{
+    '&:hover': {
+      backgroundColor: 'white',
+      color: '#222935',
+    },
+  }}>
+        Registrasi
+      </Button>
 
       {registrationResult && (
-        <div>
-          {registrationResult.success ? (
-            <p>Registration successful! User: {JSON.stringify(registrationResult.user)}</p>
-          ) : (
-            <p>Registration failed. Error: {registrationResult.error}</p>
-          )}
-        </div>
-      )}
+  <div style={{ marginTop: '20px', padding: '10px', backgroundColor: 'gray.800', borderRadius: '5px' }}>
+    {registrationResult.success ? (
+      <p style={{ color: 'white' }}>Registrasi Berhasil :D<br/> User: {JSON.stringify(registrationResult.user)}</p>
+    ) : (
+      <p style={{ color: 'red' }}>Registrasi Gagal :( <br/> Error: {registrationResult.error}</p>
+    )}
+  </div>
+)}
+
+  </VStack>
+
+</Box>
+
+      
+      <Box bg="gray.800" color="darkgray" py={6}>
+      <Container maxW="container.lg">
+        <Text textAlign="center">&copy; 2023 Syaidina Maulana. All rights reserved.</Text>
+      </Container>
+    </Box>
+
+      
     </div>
         </>
     )
+
+    
 }

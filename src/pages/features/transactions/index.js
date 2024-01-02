@@ -1,40 +1,57 @@
-import { Container, Heading, Link, Button, Box, Image, VStack, Toast} from "@chakra-ui/react";
+import { Link, Button, Box, VStack, Image, Container, Heading, Text, Grid, GridItem} from "@chakra-ui/react";
 import { HamburgerIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
 import Card from "@/components/card";
 
 export default function index() {
     return (
         <>
-        <Card />
-          <Box display="flex" flexDirection="column" bg="black" pb="10" pt="7" pr={3} pl={3} m={100} w="auto">
-            <VStack spacing={3} bg={"#cd6600"} p="-10">
-          <Box boxSize="70%">
-            <Image src='http://pinisichoir.mhs.unm.ac.id/wp-content/uploads/sites/4/2018/02/Bank-Mandiri-Logo-Vector-Image.png'
-              objectFit="cover"
-            />
-          </Box>
-              <Button colorScheme='gray' variant='ghost' mb="10px">
-                <Link href = "insertC/cardV">Sale</Link>
-              </Button>
-              <Button colorScheme='gray' variant='ghost' mb="10px">
-                <Link href = "transactions/OpenCard/openCard">Open Card</Link>
-              </Button>
-              <Button colorScheme='gray' variant='ghost' mb="10px">
-                <Link href = "transactions/Offline/approvalC">Offline</Link>
-              </Button>
-              <Button colorScheme='gray' variant='ghost' mb="10px">
-                <Link href = "transactions/Release/cardR">Release</Link>
-              </Button>
-              <Button colorScheme='gray' variant='ghost' mb="10px">
-                <Link href = "transactions/Manual/cardN">Manual Transaction</Link>
-              </Button>
-            </VStack>
-              <Box display="flex" justifyContent="space-between" pt={4}>
-              <ArrowLeftIcon color={"white"}></ArrowLeftIcon>
-              <HamburgerIcon color={"white"}></HamburgerIcon>
-              <ArrowRightIcon color={"white"}></ArrowRightIcon>
-            </Box>
-          </Box>
+<Box bg="gray.800" py={6} px={4} boxShadow="lg" width="100%">
+    <Container maxW="container.lg" textAlign="center">
+      <Heading color="darkgray">Transaksi</Heading>
+      
+    </Container>
+  </Box>
+
+  <Box bg="#222935" p={5} style={{ display: 'flex', justifyContent: 'center'}}>
+  <VStack spacing={3} align="stretch" bg="#222935" p={5} justifyContent="center">
+      <Button colorScheme='gray.800' variant='ghost' color='white' sx={{
+    '&:hover': {
+      backgroundColor: 'white',
+      color: '#222935',},}}>
+         <Link href = "insertC/cardV">Sale</Link>
+      </Button>
+      <Button colorScheme='gray.800' variant='ghost' color='white' sx={{
+    '&:hover': {
+      backgroundColor: 'white',
+      color: '#222935',},}}>
+         <Link href = "transactions/OpenCard/openCard">Open Card</Link>
+      </Button>
+      <Button colorScheme='gray.800' variant='ghost' color='white' sx={{
+    '&:hover': {
+      backgroundColor: 'white',
+      color: '#222935',},}}>
+         <Link href = "transactions/Offline/approvalC">Offline</Link>
+      </Button>
+      <Button colorScheme='gray.800' variant='ghost' color='white' sx={{
+    '&:hover': {
+      backgroundColor: 'white',
+      color: '#222935',},}}>
+         <Link href = "transactions/Release/cardR">Release</Link>
+      </Button>
+      <Button colorScheme='gray.800' variant='ghost' color='white' sx={{
+    '&:hover': {
+      backgroundColor: 'white',
+      color: '#222935',},}}>
+          <Link href = "transactions/Manual/cardN">Manual Transaction</Link>
+      </Button>
+    </VStack>
+    </Box>
+          
+          <Box bg="gray.800" color="darkgray" py={6}>
+      <Container maxW="container.lg">
+        <Text textAlign="center">&copy; 2023 Syaidina Arafhan & Atthariq Maulana. All rights reserved.</Text>
+      </Container>
+    </Box>
         </>
     )
 }

@@ -1,7 +1,7 @@
 import { axiosInstance } from "@/lib/axios";
 import { useFormik } from "formik";
 import { useState, useEffect } from "react";
-import { Link, Button, Box, VStack, Image, Stack, FormControl, FormLabel, Input, useToast} from "@chakra-ui/react";
+import { Link, Button, Box, VStack, Image, Stack, FormControl, FormLabel, Input, useToast, Container, Text, Heading} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { HamburgerIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
 
@@ -50,20 +50,20 @@ export default function setPass() {
 
 return (
     <>
-    <Box display="flex" flexDirection="column" bg="black" pb="10" pt="7" pr={3} pl={3} m={100} w="auto" h="550">
-      <VStack spacing={3} bg={"#cd6600"} p="-10" pb={160}>
-        <Box boxSize="70%">
-          <Image src='http://pinisichoir.mhs.unm.ac.id/wp-content/uploads/sites/4/2018/02/Bank-Mandiri-Logo-Vector-Image.png'
-            objectFit="cover"
-          />
-        </Box>
+    <Box bg="gray.800" py={6} px={4} boxShadow="lg" width="100%">
+    <Container maxW="container.lg" textAlign="center">
+      <Heading color="darkgray">Insert Card</Heading>  
+    </Container>
+      </Box>
+      <Box bg="#222935" p={5} style={{ display: 'flex', justifyContent: 'center'}}>
+  <VStack spacing={3} align="stretch" bg="#222935" p={5} justifyContent="center">
 
         <form onSubmit={formik.handleSubmit}>
         <Stack spacing={4}>
             <FormControl pb="5">
-                <FormLabel>Password</FormLabel>
-                <Input
-                    type="text"
+                <FormLabel color="white">Password</FormLabel>
+                <Input color="white"
+                    type="password"
                     id="password"
                     name="password"
                     onChange={formik.handleChange}
@@ -75,16 +75,17 @@ return (
 
               </p>
             )}
-            <Button type="submit" colorScheme="gray">Submit</Button>
+           <Button type="button" onClick={formik.submitForm} marginTop="20px"colorScheme='gray.800' variant='ghost' color='white' sx={{'&:hover': {backgroundColor: 'white', color: '#222935' },}}>Confirm</Button>
         </Stack>
     </form>
 
     </VStack>
-    <Box display="flex" justifyContent="space-between" pt={4}>
-            <ArrowLeftIcon color={"white"}></ArrowLeftIcon>
-            <HamburgerIcon color={"white"}></HamburgerIcon>
-            <ArrowRightIcon color={"white"}></ArrowRightIcon>
-          </Box>
+    </Box>
+
+    <Box bg="gray.800" color="darkgray" py={6}>
+      <Container maxW="container.lg">
+        <Text textAlign="center">&copy; 2023 Syaidina Arafhan & Atthariq Maulana. All rights reserved.</Text>
+      </Container>
     </Box>
     <p>Password : {pass}</p>
     </>

@@ -3,16 +3,16 @@ import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, Modal
 const ReceiptModal = ({ isOpen, onClose, modalReceiptData }) => (
   <Modal isOpen={isOpen} onClose={onClose}>
     <ModalOverlay />
-    <ModalContent>
-      <ModalHeader>Receipt</ModalHeader>
+    <ModalContent display="flex" flexDirection="column" alignItems="center" justifyContent="center" textAlign="center" bg="gray.800" color="gray.800">
+      <ModalHeader color="gray">Receipt</ModalHeader>
       <ModalCloseButton />
-      <ModalBody>
+      <ModalBody marginBottom="10px" color="white" alignItems="left" >
         <p>{modalReceiptData ? modalReceiptData.kartu : 'Data tidak tersedia'}</p>
         <p>traceNumber : {modalReceiptData ? modalReceiptData.traceNumber : 'Data tidak tersedia'}</p>
         <p>Tanggal : {modalReceiptData ? modalReceiptData.date : 'Data tidak tersedia'}</p>
         <p>refNumber : {modalReceiptData ? modalReceiptData.refNumber : 'Data tidak tersedia'}</p>
         <p>Total Harga: {modalReceiptData ? modalReceiptData.totalHarga : 'Data tidak tersedia'}</p>
-        <Button onClick={() => onClose()}>OK</Button>
+        <Button onClick={() => onClose()} marginTop="20px"colorScheme='gray.800' variant='ghost' color='white' sx={{'&:hover': {backgroundColor: 'white', color: '#222935' },}}>OK</Button>
       </ModalBody>
     </ModalContent>
   </Modal>

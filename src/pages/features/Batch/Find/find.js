@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Button, FormControl, FormLabel, Input, 
   Modal, ModalOverlay, ModalContent, ModalHeader, 
   ModalCloseButton, ModalBody, ModalFooter, 
-  Box, Image, VStack,
+  Box, Image, VStack, Container, Text, Heading, 
 } from "@chakra-ui/react";
 import { Formik, Form, Field } from "formik";
 import { useRouter } from "next/router";
@@ -24,29 +24,35 @@ export default function Void() {
 
   return (
 <>
+<Box bg="gray.800" py={6} px={4} boxShadow="lg" width="100%">
+    <Container maxW="container.lg" textAlign="center">
+      <Heading color="darkgray">FIND</Heading>
+      </Container>
+      </Box>
 
-    <Box display="flex" flexDirection="column" bg="black" pb="10" pt="7" pr={3} pl={3} m={100} w="auto" h="550">
-      <VStack spacing={3} bg={"#cd6600"} p="-10" pb={160}>
-        <Box boxSize="70%">
-          <Image src='http://pinisichoir.mhs.unm.ac.id/wp-content/uploads/sites/4/2018/02/Bank-Mandiri-Logo-Vector-Image.png'
-            objectFit="cover"
-          />
-        </Box>
-
+      <Box bg="#222935" p={2} style={{ display: 'flex', justifyContent: 'center'}}>
+                <VStack spacing={3} align="stretch" bg="#222935" p={5} justifyContent="center">
         <FindTransactionForm onTransactionFound={handleTransactionFound} />
-
         {transactionData && (
         <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
           <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Transaction Details</ModalHeader>
+          <ModalContent 
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              justifyContent="center"
+              textAlign="center"
+              bg="gray.800" 
+              color="gray.800">
+
+              <ModalHeader color="gray">Detail Transaksi</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
               <h2>Transaction Found:</h2>
               <pre>{JSON.stringify(transactionData, null, 2)}</pre>
             </ModalBody>
             <ModalFooter>
-              <Button onClick={() => {
+              <Button type="submit" marginTop="20px" colorScheme='gray.800' variant='ghost' color='white' sx={{'&:hover': {backgroundColor: 'white', color: '#222935' },}} onClick={() => {
                 setModalOpen(false);
               }}>Close</Button>
             </ModalFooter>
@@ -55,11 +61,13 @@ export default function Void() {
       )}
 
       </VStack>
-      <Box display="flex" justifyContent="space-between" pt={4}>
-            <ArrowLeftIcon color={"white"}></ArrowLeftIcon>
-            <HamburgerIcon color={"white"}></HamburgerIcon>
-            <ArrowRightIcon color={"white"}></ArrowRightIcon>
-          </Box>
+      
+
+    </Box>
+    <Box bg="gray.800" color="darkgray" py={6}>
+      <Container maxW="container.lg">
+        <Text textAlign="center">&copy; 2023 Syaidina Arafhan & Atthariq Maulana. All rights reserved.</Text>
+      </Container>
     </Box>
     </>
   );

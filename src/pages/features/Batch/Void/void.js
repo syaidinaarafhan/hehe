@@ -1,13 +1,9 @@
 import { useState, useEffect } from "react";
-import { Button, FormControl, FormLabel, Input, 
-  Modal, ModalOverlay, ModalContent, ModalHeader, 
-  ModalCloseButton, ModalBody, ModalFooter, 
-  Box, Image, VStack,
-} from "@chakra-ui/react";
+import {Button, FormControl, FormLabel, Input, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Box, Text, VStack, Container, Heading } from "@chakra-ui/react";
 import { Formik, Form, Field } from "formik";
 import { useRouter } from "next/router";
 import { axiosInstance } from "@/lib/axios";
-import { HamburgerIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
+
 
 export default function Void() {
   const router = useRouter();
@@ -67,21 +63,22 @@ export default function Void() {
   return (
 <>
 
-    <p>Password : {pass}</p>
-    <Box display="flex" flexDirection="column" bg="black" pb="10" pt="7" pr={3} pl={3} m={100} w="auto" h="550">
-      <VStack spacing={3} bg={"#cd6600"} p="-10" pb={160}>
-        <Box boxSize="70%">
-          <Image src='http://pinisichoir.mhs.unm.ac.id/wp-content/uploads/sites/4/2018/02/Bank-Mandiri-Logo-Vector-Image.png'
-            objectFit="cover"
-          />
-        </Box>
+
+    <Box bg="gray.800" py={6} px={4} boxShadow="lg" width="100%">
+    <Container maxW="container.lg" textAlign="center">
+      <Heading color="darkgray">VOID</Heading>
+      </Container>
+      </Box>
+
+      <Box bg="#222935" p={2} style={{ display: 'flex', justifyContent: 'center'}}>
+                <VStack spacing={3} align="stretch" bg="#222935" p={5} justifyContent="center">
 
       <Formik initialValues={{ traceNumber: "" }} onSubmit={handleFormSubmit}>
         <Form>
           <FormControl pb="5">
-            <FormLabel>traceNumber</FormLabel>
+            <FormLabel color= "white">Trace Number</FormLabel>
             <Field name="traceNumber" as={Input} type="text" />
-            <Button mt={4} colorScheme="gray" type="submit">
+            <Button marginTop="20px"colorScheme='gray.800' variant='ghost' color='white' sx={{'&:hover': {backgroundColor: 'white', color: '#222935' },}} type="submit">
                 Find Transaction
             </Button>
           </FormControl>
@@ -90,9 +87,8 @@ export default function Void() {
 
       {transaction && (
         <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Transaction Details</ModalHeader>
+          <ModalContent display= "flex" flexDirection="column" alignItems="center" justifyContent="center" textAlign="center" bg="gray.800" color="gray.800">
+              <ModalHeader color="gray">Transaction Details</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
               <h2>Transaction Found:</h2>
@@ -111,7 +107,6 @@ export default function Void() {
             isOpen={isPasswordModalOpen}
             onClose={() => setPasswordModalOpen(false)}
         >
-        <ModalOverlay />
         <ModalContent>
           <ModalHeader>Enter Password</ModalHeader>
           <ModalCloseButton />
@@ -137,12 +132,14 @@ export default function Void() {
       </Modal>
 
       </VStack>
-      <Box display="flex" justifyContent="space-between" pt={4}>
-            <ArrowLeftIcon color={"white"}></ArrowLeftIcon>
-            <HamburgerIcon color={"white"}></HamburgerIcon>
-            <ArrowRightIcon color={"white"}></ArrowRightIcon>
-          </Box>
     </Box>
+
+    <Box bg="gray.800" color="darkgray" py={6}>
+      <Container maxW="container.lg">
+        <Text textAlign="center">&copy; 2023 Syaidina Arafhan & Atthariq Maulana. All rights reserved.</Text>
+      </Container>
+    </Box>
+    <p>Password : {pass}</p>
     </>
   );
 }

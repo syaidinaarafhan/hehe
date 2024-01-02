@@ -1,19 +1,4 @@
-import {
-    useToast,
-    FormControl,
-    FormLabel,
-    Input,
-    Button,
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalBody,
-    ModalCloseButton,
-    Box,
-    Image,
-    VStack,
-  } from "@chakra-ui/react";
+import { useToast, FormControl, FormLabel, Input, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, Link, Box, VStack, Image, Container, Heading, Text, Grid, GridItem} from "@chakra-ui/react";
 import { useFormik } from "formik";
 import { useCreateProduct } from "@/pages/features/Mutate/useCreateTransaksi";
 import { useEffect, useState } from "react";
@@ -78,15 +63,26 @@ import ReceiptModal from "@/components/receipt";
   
       return (
         <Modal isOpen={isOpen} onClose={handleClose}>
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>QR Code</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              {qrCodeValue && <QRCode value={qrCodeValue} />}
-              <Button onClick={handleClose}>OK</Button>
-            </ModalBody>
-          </ModalContent>
+  <ModalOverlay />
+  <ModalContent
+    display="flex"
+    flexDirection="column"
+    alignItems="center"
+    justifyContent="center"
+    textAlign="center"
+    bg="gray.800" 
+    color="gray.800" 
+  >
+    <ModalHeader color="gray">QR Code</ModalHeader>
+    <ModalCloseButton />
+    <ModalBody marginBottom="10px">
+      {qrCodeValue && (
+        <QRCode value={qrCodeValue}/>
+      )}
+      <Button onClick={handleClose} marginTop="20px"colorScheme='gray.800' variant='ghost' color='white' sx={{'&:hover': {backgroundColor: 'white', color: '#222935' },}}>
+        Tampilkan QR</Button>
+    </ModalBody>
+  </ModalContent>
         </Modal>
       );
     };
@@ -101,16 +97,18 @@ import ReceiptModal from "@/components/receipt";
   
     return (
       <>
-      <Card/>
-        <Box display="flex" flexDirection="column" bg="black" pb="10" pt="7" pr={3} pl={3} m={100} w="auto">
-          <VStack spacing={3} bg={"#cd6600"} p="-10">
-          <Box boxSize="70%">
-            <Image src='http://pinisichoir.mhs.unm.ac.id/wp-content/uploads/sites/4/2018/02/Bank-Mandiri-Logo-Vector-Image.png'
-              objectFit="cover"
-            />
-          </Box>
 
+<Box bg="gray.800" py={6} px={4} boxShadow="lg" width="100%">
+    <Container maxW="container.lg" textAlign="center">
+      <Heading color="darkgray">QR</Heading>
+      
+    </Container>
+  </Box>
 
+  <Box bg="#222935" p={5} style={{ display: 'flex', justifyContent: 'center'}}>
+  <VStack spacing={3} align="stretch" bg="#222935" p={5} justifyContent="center">
+
+      
       <ReceiptModal
         isOpen={isReceiptOpen}
         onClose={() => {
@@ -127,20 +125,38 @@ import ReceiptModal from "@/components/receipt";
   <Box pb="50%">
       <form onSubmit={formik.handleSubmit}>
         <FormControl pb="5">
-          <FormLabel>Amout</FormLabel>
+          <FormLabel color='white'>Masukan Nominal</FormLabel>
           <Input
             type="number"
             onChange={handleFormInput}
             name="totalHarga"
             id="totalHarga"
             value={formik.values.totalHarga}
+            style={{
+              padding: '8px',
+              borderRadius: '4px',
+              border: '1px solid #222935',
+              backgroundColor: 'grey.800',
+              borderColor: 'white',
+              color: 'white',
+              width: '100%', 
+              boxSizing: 'border-box', 
+              maxWidth: '80%', 
+            }}
           />
         </FormControl>
-          <Button type="submit" bg="gray">Submit Product</Button>
+          <Button type="submit" colorScheme='gray.800' variant='ghost' color='white' sx={{'&:hover': {backgroundColor: 'white', color: '#222935' },}}>
+        Tampilkan QR</Button>
       </form>
       </Box>
           </VStack>
         </Box>
+
+        <Box bg="gray.800" color="darkgray" py={6}>
+      <Container maxW="container.lg">
+        <Text textAlign="center">&copy; 2023 Syaidina Arafhan & Atthariq Maulana. All rights reserved.</Text>
+      </Container>
+    </Box>
       </>
     );
   } 

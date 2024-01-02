@@ -4,14 +4,22 @@ const ConfirmationModal = ({ isOpen, onClose, onConfirm }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>Confirm ApprovalCode</ModalHeader>
+      <ModalContent
+    display="flex"
+    flexDirection="column"
+    alignItems="center"
+    justifyContent="center"
+    textAlign="center"
+    bg="gray.800" 
+    color="gray.800" 
+  >
+        <ModalHeader color="gray">Confirm ApprovalCode</ModalHeader>
         <ModalCloseButton />
-        <ModalBody>
+        <ModalBody marginBottom="10px">
           Are you sure?
         </ModalBody>
         <ModalFooter>
-          <Button colorScheme="green" mr={3} onClick={onConfirm}>
+          <Button mr={3} onClick={onConfirm} marginTop="20px"colorScheme='gray.800' variant='ghost' color='white' sx={{'&:hover': {backgroundColor: 'white', color: '#222935' },}}>
             Confirm
           </Button>
           <Button onClick={onClose}>Cancel</Button>

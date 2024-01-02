@@ -98,7 +98,7 @@ export default function InsertCard() {
             <form onSubmit={formik.handleSubmit}>
               <FormControl pb="5">
                 <FormLabel>PIN</FormLabel>
-                <Input
+                <Input color="white"
                   type="password"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -115,13 +115,13 @@ export default function InsertCard() {
             </form>
           </Box>
         </VStack>
-        <Box display="flex" justifyContent="space-between" pt={4}>
-          <ArrowLeftIcon color={"white"}></ArrowLeftIcon>
-          <HamburgerIcon color={"white"}></HamburgerIcon>
-          <ArrowRightIcon color={"white"}></ArrowRightIcon>
-        </Box>
+       
       </Box>
-
+      <Box bg="gray.800" color="darkgray" py={6}>
+      <Container maxW="container.lg">
+        <Text textAlign="center">&copy; 2023 Syaidina Arafhan & Atthariq Maulana. All rights reserved.</Text>
+      </Container>
+    </Box>
     </>
   );
 }

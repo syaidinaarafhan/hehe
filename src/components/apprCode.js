@@ -35,7 +35,7 @@ const ApprovalCodeForm = ({ onTransactionFound }) => {
   return (
     <form onSubmit={formik.handleSubmit}>
       <FormControl pb="5">
-        <FormLabel>approvalCode</FormLabel>
+        <FormLabel color="white">Approval Code</FormLabel>
         <Input
           type="text"
           name="apprCode"
@@ -43,7 +43,7 @@ const ApprovalCodeForm = ({ onTransactionFound }) => {
           onChange={formik.handleChange}
         />
         <Button mt={4} colorScheme="gray" type="submit">
-          Find Transaction
+          Telusuri
         </Button>
       </FormControl>
     </form>
