@@ -20,22 +20,48 @@ import { useEffect, useState } from "react";
 import { axiosInstance } from "@/lib/axios";
 import { useRouter } from "next/router";
 import { HamburgerIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
+import Card from "@/components/card";
   
   export default function InsertCard() {
 
     const router = useRouter()
 
-    const [isiKartu, setIsiKartu] = useState(null);
+    const [userCard, setUserCard] = useState(null);
 
-    useEffect(() => {
-      axiosInstance.get('/api/getData')
-      .then(response => {
-          setIsiKartu(response.data.isiKartu);
-      })
-      .catch(error => {
-          console.error('Error fetching data:', error);
+    const fetchCards = () => {
+      axiosInstance
+        .get('/cards')
+        .then((response) => {
+          setUserCard(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
         });
+    };
+  
+    useEffect(() => {
+      fetchCards();
     }, []);
+  
+    const renderCard = () => {
+      if (userCard) {
+        return (
+          <div>
+            {userCard.map((card) => (
+              <div key={card.id}>
+                <div>pin = {card.pin}</div>
+                <div>nomor kartu = {card.noKartu}</div>
+                <div>exp Kartu = {card.cardExp}</div>
+                <div>Limit Debit = {card.nominalLimit}</div>
+                <div>Limit Deposit = {card.deposit}</div>
+              </div>
+            ))}
+          </div>
+        );
+      }
+    };
+  
+    const pin = userCard && userCard.length > 0 ? userCard[0].pin : null;
 
     const toast = useToast();
     const [isModalOpen, setModalOpen] = useState(false);
@@ -110,11 +136,11 @@ import { HamburgerIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
           isOpen={insertCardData !== null}
           onClose={() => {
             setReceiptData(0);
-            router.push('/');
+            router.push('/dashboard');
           }}
           modalReceiptData={insertCardData}
         />
-  <Box pb="50%">
+    <Box pb="50%">
         <form onSubmit={formik.handleSubmit}>
           <FormControl pb="5">
             <FormLabel>Harga</FormLabel>

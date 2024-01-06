@@ -9,7 +9,7 @@ const FindTransactionForm = ({ onTransactionFound }) => {
   const handleFormSubmit = async (values) => {
     try {
       const response = await axiosInstance.get(`/find/${values.traceNumber}`);
-      const transactionData = await response.data;
+      const transactionData = await response.data.data;
 
       if (transactionData) {
         toast({

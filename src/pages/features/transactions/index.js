@@ -14,7 +14,7 @@ export default function index() {
             />
           </Box>
               <Button colorScheme='gray' variant='ghost' mb="10px">
-                <Link href = "insertC/cardV">Sale</Link>
+                <Link href = "insertC/insertCard">Sale</Link>
               </Button>
               <Button colorScheme='gray' variant='ghost' mb="10px">
                 <Link href = "transactions/OpenCard/openCard">Open Card</Link>
@@ -23,7 +23,7 @@ export default function index() {
                 <Link href = "transactions/Offline/approvalC">Offline</Link>
               </Button>
               <Button colorScheme='gray' variant='ghost' mb="10px">
-                <Link href = "transactions/Release/cardR">Release</Link>
+                <Link href = "transactions/Release/approvalC">Release</Link>
               </Button>
               <Button colorScheme='gray' variant='ghost' mb="10px">
                 <Link href = "transactions/Manual/cardN">Manual Transaction</Link>

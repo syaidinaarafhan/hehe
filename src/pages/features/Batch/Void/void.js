@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Button, FormControl, FormLabel, Input, 
   Modal, ModalOverlay, ModalContent, ModalHeader, 
   ModalCloseButton, ModalBody, ModalFooter, 
-  Box, Image, VStack,
+  Box, Image, VStack, useToast
 } from "@chakra-ui/react";
 import { Formik, Form, Field } from "formik";
 import { useRouter } from "next/router";
@@ -11,25 +11,31 @@ import { HamburgerIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
 
 export default function Void() {
   const router = useRouter();
-
+  const toast = useToast();
   const [transaction, setTransaction] = useState(null);
   const [isModalOpen, setModalOpen] = useState(false);
-  const [isiKartu, setIsiKartu] = useState(null);
   const [isPinValid, setPinValid] = useState(true);
   const [isPasswordModalOpen, setPasswordModalOpen] = useState(false);
   const [enteredPassword, setEnteredPassword] = useState("");
+  const [confirmDelete, setConfirmDelete] = useState(false);
 
-  useEffect(() => {
-    axiosInstance.get('/api/getData')
-      .then(response => {
-        setIsiKartu(response.data.isiKartu);
+  const handleDeleteTransaction = async () => {
+    try {
+      await axiosInstance.delete(`/delete/${transaction.id}`);
+      
+      setConfirmDelete(false);
+      setModalOpen(false);
+      toast({
+        title: 'Transaksi Berhasil Dibatalkan',
+        status: 'success'
       })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  }, []);
-
-  const pass = isiKartu?.password ?? "Data gaada";
+      router.push('/dashboard')
+    } catch (error) {
+      console.error('Error deleting transaction:', error);
+    }
+  };
+  
+  
 
   const handleFormSubmit = async (values) => {
 
@@ -40,7 +46,7 @@ export default function Void() {
 
   const handlePasswordSubmit = () => {
 
-    if (enteredPassword !== pass) {
+    if (enteredPassword !== '0000') {
       setPinValid(false);
       return;
     }
@@ -51,15 +57,25 @@ export default function Void() {
       try {
         const response = await axiosInstance.get(`/find/${transaction?.traceNumber}`);
         console.log(response);
-        const transactionData = response.data;
-
-        setTransaction(transactionData);
-        setModalOpen(true);
+        const transactionData = response.data.data;
+        setModalOpen(false);
+        if (!transactionData) {
+          toast({
+            title: "Data Not Found",
+            description: "Transaction data not found.",
+            status: "warning",
+            duration: 5000,
+            isClosable: true,
+          });
+        } else {
+          setModalOpen(true);
+          setTransaction(transactionData);
+        }
       } catch (error) {
         console.error("Error fetching transaction data:", error);
       }
     };
-
+  
     setTransaction(transactionData);
     setModalOpen(true);
   };
@@ -67,7 +83,7 @@ export default function Void() {
   return (
 <>
 
-    <p>Password : {pass}</p>
+    <p>Password : 0000</p>
     <Box display="flex" flexDirection="column" bg="black" pb="10" pt="7" pr={3} pl={3} m={100} w="auto" h="550">
       <VStack spacing={3} bg={"#cd6600"} p="-10" pb={160}>
         <Box boxSize="70%">
@@ -95,17 +111,49 @@ export default function Void() {
             <ModalHeader>Transaction Details</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              <h2>Transaction Found:</h2>
-              <pre>{JSON.stringify(transaction, null, 2)}</pre>
+              <p>
+                <strong>TransactionId:</strong> {transaction.id}
+              </p>
+              <p>
+                <strong>Trace Number:</strong> {transaction.traceNumber}
+              </p>
+              <p>
+                <strong>Tanggal:</strong> {transaction.date}
+              </p>
+              <p>
+                <strong>Batch:</strong> {transaction.batch}
+              </p>
+              <p>
+                <strong>Ref Number:</strong> {transaction.refNumber}
+              </p>
+              <p>
+                <strong>Price:</strong> {transaction.totalHarga}
+              </p>
             </ModalBody>
             <ModalFooter>
-              <Button onClick={() => {
-                setModalOpen(false);
-              }}>Close</Button>
+              <Button onClick={() => setModalOpen(false)}>Close</Button>
+
+              <Button colorScheme="red" ml={3} onClick={() => setConfirmDelete(true)}>
+                Delete
+              </Button>
             </ModalFooter>
           </ModalContent>
         </Modal>
       )}
+
+      <Modal isOpen={confirmDelete} onClose={() => setConfirmDelete(false)}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Are you sure?</ModalHeader>
+          <ModalCloseButton />
+          <ModalFooter>
+            <Button onClick={() => setConfirmDelete(false)}>Cancel</Button>
+            <Button colorScheme="red" ml={3} onClick={handleDeleteTransaction}>
+              Confirm Delete
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
 
         <Modal
             isOpen={isPasswordModalOpen}

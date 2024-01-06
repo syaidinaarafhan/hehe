@@ -1,7 +1,7 @@
 import { axiosInstance } from "@/lib/axios";
 import { useEffect, useState } from "react";
 
-export default function Card() {
+export default function Card({ onCardPinClick }) {
   const [userCard, setUserCard] = useState(null);
 
   useEffect(() => {

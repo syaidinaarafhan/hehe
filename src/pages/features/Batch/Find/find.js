@@ -42,12 +42,29 @@ export default function Void() {
             <ModalHeader>Transaction Details</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              <h2>Transaction Found:</h2>
-              <pre>{JSON.stringify(transactionData, null, 2)}</pre>
+              <p>
+                <strong>TransactionId:</strong> {transactionData.id}
+              </p>
+              <p>
+                <strong>Trace Number:</strong> {transactionData.traceNumber}
+              </p>
+              <p>
+                <strong>Tanggal:</strong> {transactionData.date}
+              </p>
+              <p>
+                <strong>Batch:</strong> {transactionData.batch}
+              </p>
+              <p>
+                <strong>Ref Number:</strong> {transactionData.refNumber}
+              </p>
+              <p>
+                <strong>Price:</strong> {transactionData.totalHarga}
+              </p>
             </ModalBody>
             <ModalFooter>
               <Button onClick={() => {
                 setModalOpen(false);
+                router.push('/dashboard')
               }}>Close</Button>
             </ModalFooter>
           </ModalContent>

@@ -1,19 +1,22 @@
 import { axiosInstance } from '@/lib/axios';
-import { Tabs, Box, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from '@chakra-ui/react';
+import { Tabs, Box, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Text, useToast } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 export default function Audit() {
   const [transactions, setTransactions] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [transactionIdToSettle, setTransactionIdToSettle] = useState(null);
+  const [transactionIdToSettle, setTransactionIdToSettle] = useState([]);
+  const [statusText, setStatusText] = useState('');
   const router = useRouter();
+  const toast = useToast();
 
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
         const response = await axiosInstance("/unsettle");
         setTransactions(response.data.data);
+        setStatusText(response.data.data.length > 0 ? '' : 'Nothing to settle');
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -22,31 +25,48 @@ export default function Audit() {
     fetchTransactions();
   }, []);
 
-  const handleSettlement = (transactionId) => {
+  const handleSettlementAll = () => {
+    const allTransactionIds = transactions.map((transaction) => transaction.id);
+    setTransactionIdToSettle(allTransactionIds);
     setIsModalOpen(true);
-    setTransactionIdToSettle(transactionId);
   };
 
   const handleModalClose = () => {
     setIsModalOpen(false);
-    setTransactionIdToSettle(null);
+    setTransactionIdToSettle([]);
   };
 
-  const showToast = () => {
+  const showToast = (message, status) => {
+    toast({
+      title: message,
+      status: status,
+      duration: 5000,
+      isClosable: true,
+    });
   };
 
   const settleTransaction = async () => {
     try {
-      await axiosInstance.post('/settled', { transactionId: transactionIdToSettle });
-      handleModalClose();
-      showToast();
+      if (transactionIdToSettle.length > 0) {
+        await axiosInstance.post('/settled', { transactionId: transactionIdToSettle });
+        handleModalClose();
+        showToast('Settled', 'success');
+        router.push('/dashboard')
+      }
     } catch (error) {
       console.error('Error settling transaction:', error);
+      showToast('Error settling transaction', 'error');
     }
   };
 
   return (
     <div>
+      {statusText && <Text>{statusText}</Text>}
+      {transactions.length > 0 && (
+        <Button onClick={handleSettlementAll}>
+          Settlement
+        </Button>
+      )}
       <ul>
         {transactions.map((transaction) => (
           <li key={transaction.id}>
@@ -58,35 +78,26 @@ export default function Audit() {
                 <div>Batch : {transaction.batch},</div>
                 <div>Ref Number : {transaction.refNumber},</div>
                 <div>Total Harga: {transaction.totalHarga}</div>
-                <div>Settled?: {transaction.settlement}</div>
-
-                {!transaction.settlement && (
-                  <Button onClick={() => handleSettlement(transaction.id)}>
-                    Settlement
-                  </Button>
-                )}
-
-                <Modal isOpen={isModalOpen} onClose={handleModalClose}>
-                  <ModalOverlay />
-                  <ModalContent>
-                    <ModalHeader>Do you want to settle?</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody>
-                    </ModalBody>
-
-                    <ModalFooter>
-                      <Button colorScheme="blue" mr={3} onClick={settleTransaction}>
-                        Yes
-                      </Button>
-                      <Button onClick={handleModalClose}>No</Button>
-                    </ModalFooter>
-                  </ModalContent>
-                </Modal>
               </Box>
             </Tabs>
           </li>
         ))}
       </ul>
+      <Modal isOpen={isModalOpen} onClose={handleModalClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Do you want to settle?</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={settleTransaction} >
+              Yes
+            </Button>
+            <Button onClick={handleModalClose}>No</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </div>
   );
 }

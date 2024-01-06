@@ -27,17 +27,42 @@ import { useOfflineTransaksi } from '../../Mutate/useOfflineTransaksi';
 
     const [wrongPinAttempts, setWrongPinAttempts] = useState(0);
 
-    useEffect(() => {
-      axiosInstance.get('/api/getData')
-      .then(response => {
-          setIsiKartu(response.data.isiKartu);
-      })
-      .catch(error => {
-          console.error('Error fetching data:', error);
+    const [userCard, setUserCard] = useState(null);
+
+    const fetchCards = () => {
+      axiosInstance
+        .get('/cards')
+        .then((response) => {
+          setUserCard(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
         });
+    };
+
+    useEffect(() => {
+      fetchCards();
     }, []);
 
-    const pin1 = isiKartu?.pin ?? 'Data gaada'
+    const renderCard = () => {
+      if (userCard) {
+        return (
+          <div>
+            {userCard.map((card) => (
+              <div key={card.id}>
+                <div>pin = {card.pin}</div>
+                <div>nomor kartu = {card.noKartu}</div>
+                <div>exp Kartu = {card.cardExp}</div>
+                <div>Limit Debit = {card.nominalLimit}</div>
+                <div>Limit Deposit = {card.deposit}</div>
+              </div>
+            ))}
+          </div>
+        );
+      }
+    };
+
+    const pin = userCard && userCard.length > 0 ? userCard[0].pin : null;
 
     const toast = useToast();
 
@@ -53,14 +78,14 @@ import { useOfflineTransaksi } from '../../Mutate/useOfflineTransaksi';
             title: "PIN harus diisi",
               status: "error",
           });
-        }else if (values.pin !== pin1) {
+        }else if (values.pin !== pin.toString()) {
           setWrongPinAttempts(wrongPinAttempts + 1);
       if (wrongPinAttempts >= 2) {
         toast({
           title: "Percobaan PIN sudah mencapai batas. Silakan coba lagi nanti.",
           status: "error",
         });
-        router.push('/');
+        router.push('/dashboard');
       } else {
         toast({
           title: "PIN tidak sesuai. Percobaan ke-" + (wrongPinAttempts + 1),
@@ -107,14 +132,14 @@ import { useOfflineTransaksi } from '../../Mutate/useOfflineTransaksi';
               />
             </Box>
 
-        {/* <ReceiptModal
+        <ReceiptModal
           isOpen={insertCardData !== null}
           onClose={() => {
             setReceiptData(0);
-            router.push('/');
+            router.push('/dashboard');
           }}
           modalReceiptData={insertCardData}
-        /> */}
+        />
       <Box pb="50%">
       <Formik
         initialValues={{ amount: '' }}

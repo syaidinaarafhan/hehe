@@ -36,6 +36,9 @@ export default function dashboard() {
   return (
     <>
     <div>
+      <Button>
+        <Link href="dataTransaksi">View Ur Data Transaction</Link>
+      </Button>
         <h1>Dashboard</h1>
         {userData && <p>Welcome, {userData.name}!</p>}
       </div>

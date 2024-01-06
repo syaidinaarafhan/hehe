@@ -4,38 +4,65 @@ import { Button, FormControl, FormLabel, Input, Stack, Text, Box, Image, VStack 
 import { useEffect, useState } from 'react';
 import { axiosInstance } from '@/lib/axios';
 import { HamburgerIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
+import Card from '@/components/card';
 
 export default function cardE () {
     const router = useRouter();
 
     const [isiKartu, setIsiKartu] = useState(null);
 
-    useEffect(() => {
-        axiosInstance.get('/api/getData')
-        .then(response => {
-            setIsiKartu(response.data.isiKartu);
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-          });
-      }, []);
+    const [userCard, setUserCard] = useState(null);
 
-    const cardExpiry = isiKartu?.cardExpiry ?? 'Data gaada'
+    const fetchCards = () => {
+      axiosInstance
+        .get('/cards')
+        .then((response) => {
+          setUserCard(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+  
+    useEffect(() => {
+      fetchCards();
+    }, []);
+  
+    const renderCard = () => {
+      if (userCard) {
+        return (
+          <div>
+            {userCard.map((card) => (
+              <div key={card.id}>
+                <div>pin = {card.pin}</div>
+                <div>nomor kartu = {card.noKartu}</div>
+                <div>exp Kartu = {card.cardExp}</div>
+                <div>Limit Debit = {card.nominalLimit}</div>
+                <div>Limit Deposit = {card.deposit}</div>
+              </div>
+            ))}
+          </div>
+        );
+      }
+    };
+  
+    const cardExpiry = userCard && userCard.length > 0 ? userCard[0].cardExp : null;
 
     const formik = useFormik({
         initialValues: {
             cardExpiry: '',
         },onSubmit: values => {
-            if (values.cardExpiry == cardExpiry) {
+            if (values.cardExpiry == cardExpiry.toString()) {
                 router.push('manualTransaction');
             }else{
-            router.push('/');
+            router.push('/dashboard');
             }
         }
     });
 
     return (
         <>
+        <Card />
 
         <Box display="flex" flexDirection="column" bg="black" pb="10" pt="7" pr={3} pl={3} m={100} w="auto">
             <VStack spacing={3} bg={"#cd6600"} p="-10">
@@ -69,7 +96,6 @@ export default function cardE () {
             <ArrowRightIcon color={"white"}></ArrowRightIcon>
           </Box>
         </Box>
-        <p>Card Expired : {cardExpiry}</p>
         </>
     )
 }

@@ -10,28 +10,14 @@ export default function setPass() {
     const router = useRouter();
     const toast = useToast();
 
-    const [isiKartu, setIsiKartu] = useState(null);
     const [isPinValid, setPinValid] = useState(true);
-    const [isPasswordModalOpen, setPasswordModalOpen] = useState(false);
-    const [enteredPassword, setEnteredPassword] = useState("");
 
-  useEffect(() => {
-    axiosInstance.get('/api/getData')
-      .then(response => {
-        setIsiKartu(response.data.isiKartu);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  }, []);
-
-  const pass = isiKartu?.password ?? "Data gaada";
 
   const formik = useFormik({
     initialValues: {
         password: '',
     },onSubmit: values => {
-        if (values.password == pass) {
+        if (values.password == '0000') {
           toast({
             title: "Password Benar!!",
             status: "success",
@@ -50,6 +36,7 @@ export default function setPass() {
 
 return (
     <>
+  <p>Password : 0000</p>
     <Box display="flex" flexDirection="column" bg="black" pb="10" pt="7" pr={3} pl={3} m={100} w="auto" h="550">
       <VStack spacing={3} bg={"#cd6600"} p="-10" pb={160}>
         <Box boxSize="70%">
@@ -86,7 +73,6 @@ return (
             <ArrowRightIcon color={"white"}></ArrowRightIcon>
           </Box>
     </Box>
-    <p>Password : {pass}</p>
     </>
     )
 }
