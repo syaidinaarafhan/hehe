@@ -38,7 +38,7 @@ export default function cardN () {
         <>
         <Box bg="gray.800" py={6} px={4} boxShadow="lg" width="100%">
     <Container maxW="container.lg" textAlign="center">
-      <Heading color="darkgray">Open Card</Heading>  
+      <Heading color="darkgray">Manual</Heading>  
     </Container>
       </Box>
 
@@ -61,7 +61,20 @@ export default function cardN () {
                 </FormControl>
 
                 <Button type="submit" marginTop="20px" colorScheme='gray.800' variant='ghost' color='white' sx={{'&:hover': {backgroundColor: 'white', color: '#222935' },}}>Konfirmasi</Button>
-            </Stack>
+                <Box bg="#222935" p={10} style={{ display: 'flex', justifyContent: 'center'}}>
+            <Box bg="gray.800" color="white" py={4}>
+              <Container maxW="container.lg">
+            <Text textAlign="left" mb={6}>
+           Sama seperti transaksi denga metode sale, metode manual ini menerapkan implementasi yang sama persis. Namun pada praktiknya metode manual ini tidak menggunakan kartu fisik.
+           Sehingga dibutuhkan ID Kartu untuk penunjang akses transaksi, setelah anda memasukan nomor kartu anda, anda akan dapat melakukan transaksi seperti pada metode sale.
+            </Text>
+            <Text textAlign="left" mb={6}>
+              Berhati-hatilah ketika anda melakukan transaksi, karena jumlah kegagalan memasukan password hanya dapat dilakukan sebanyak 3 kali.
+              </Text>
+              </Container>
+            </Box>
+            </Box>
+            </Stack> 
         </form>
 
             </VStack>

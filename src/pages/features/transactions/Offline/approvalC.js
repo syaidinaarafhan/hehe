@@ -35,8 +35,23 @@ export default function approvalCode () {
 <Box bg="#222935" p={5} style={{ display: 'flex', justifyContent: 'center'}}>
   <VStack spacing={3} align="stretch" bg="#222935" p={5} justifyContent="center">
             <ApprovalCodeForm onTransactionFound={handleAppr} />
+            <Box bg="#222935" p={10} style={{ display: 'flex', justifyContent: 'center'}}>
+            <Box bg="gray.800" color="white" py={4}>
+              <Container maxW="container.lg">
+            <Text textAlign="left" mb={6}>
+            Setelah mengenal Open Card, anda akan memehami penggunaan metode Offline. Yaitu penggunaan saldo yang telah didepositkan ketika melakukan Open card.
+            Mekanismenya ialah menggunakanvalidasi berupa 'Approval Code' yang didapat dari receipt open card. Setelah approval Code ditelusuri dan data valid, maka transaksi offline akan diproses
+            </Text>
+            <Text textAlign="left" mb={6}>
+              Berhati-hatilah ketika anda melakukan transaksi, karena jumlah kegagalan memasukan password hanya dapat dilakukan sebanyak 3 kali.
+              </Text>
+              </Container>
+            </Box>
+            </Box>
           </VStack>
         </Box>
+
+        
         <Box bg="gray.800" color="darkgray" py={6}>
       <Container maxW="container.lg">
         <Text textAlign="center">&copy; 2023 Syaidina Arafhan & Atthariq Maulana. All rights reserved.</Text>

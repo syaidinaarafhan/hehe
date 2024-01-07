@@ -38,7 +38,7 @@ export default function cardI () {
         <>
          <Box bg="gray.800" py={6} px={4} boxShadow="lg" width="100%">
     <Container maxW="container.lg" textAlign="center">
-      <Heading color="darkgray">Insert Card</Heading>  
+      <Heading color="darkgray">SALE</Heading>  
     </Container>
       </Box>
 
@@ -57,9 +57,20 @@ export default function cardI () {
                     />
                 </FormControl>
                 <Button type="submit" colorScheme='gray.800' variant='ghost' color='white' sx={{'&:hover': {backgroundColor: 'white', color: '#222935' },}}>Konfirmasi</Button>
+                <Box bg="#222935" p={10} style={{ display: 'flex', justifyContent: 'center'}}>
+            <Box bg="gray.800" color="white" py={4}>
+              <Container maxW="container.lg">
+            <Text textAlign="left" mb={6}>
+           Sale merupakan metode yang sering kita gunakan dalam transaksi sehari hari. biasanya diawali dengan validasi kartu pengguna dengan istilah 'gesek',
+           lalu kasir akan memasukan nominal pembelian, dan terakhir validasi pembayaran menggunakan password pengguna.</Text>
+            <Text textAlign="left" mb={6}>
+              Berhati-hatilah ketika anda melakukan transaksi, karena jumlah kegagalan memasukan password hanya dapat dilakukan sebanyak 3 kali.
+              </Text>
+              </Container>
+            </Box>
+            </Box>
             </Stack>
-        </form>
-          
+        </form>   
           </VStack>
           
         </Box>

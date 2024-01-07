@@ -99,7 +99,7 @@
     </Container>
       </Box>
 
-<Card />
+<Card />    
 <Box bg="#222935" p={5} style={{ display: 'flex', justifyContent: 'center'}}>
   <VStack spacing={3} align="stretch" bg="#222935" p={5} justifyContent="center">
 
@@ -140,6 +140,23 @@
               />
             </FormControl>
             <Button type="submit" colorScheme='gray.800' variant='ghost' color='white' sx={{'&:hover': {backgroundColor: 'white', color: '#222935' },}}>Konfirmasi</Button>
+            <Box bg="#222935" p={10} style={{ display: 'flex', justifyContent: 'center'}}>
+            <Box bg="gray.800" color="white" py={4}>
+              <Container maxW="container.lg">
+              <Heading as="h2" size="lg" textAlign="center" mb={4}>
+             Open Card
+            </Heading>
+            <Text textAlign="left" mb={6}>
+            Open card merupakan metode pembayaran pada mesin EDC yang bersifat terbuka dan dapat mendukung berbagai jenis transaksi tanpa banyak batasan.
+            Metode ini dapat bersifat sementara dengan cara mengurangi saldo anda. Namun jika saldo open card tidak anda gunakan,
+            maka saldo akan dikembalikan setelah 7 hari kerja.
+            </Text>
+            <Text textAlign="left" mb={6}>
+              Berhati-hatilah ketika anda melakukan transaksi, karena jumlah kegagalan memasukan password hanya dapat dilakukan sebanyak 3 kali.
+              </Text>
+              </Container>
+            </Box>
+            </Box>
           </form>
       </Formik>
         </Box>

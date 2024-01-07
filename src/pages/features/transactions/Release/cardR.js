@@ -58,6 +58,21 @@ export default function cardI () {
                 </FormControl>
 
                 <Button type="submit" marginTop="20px" colorScheme='gray.800' variant='ghost' color='white' sx={{'&:hover': {backgroundColor: 'white', color: '#222935' },}}>Konfirmasi</Button>
+                <Box bg="#222935" p={10} style={{ display: 'flex', justifyContent: 'center'}}>
+            <Box bg="gray.800" color="white" py={4}>
+              <Container maxW="container.lg">
+            <Text textAlign="left" mb={6}>
+            Setelah memahami open card dan offline, ada metode yang dinamakan 'Release', metode ini merupakan penarikan saldo deposit ketika saldo itu tidak digunakan.
+            Setelah anda memasukan nomor kartu beserta validasi yang diperlukan, saldo anda akan dikembalikan tanpa potongan.
+
+            </Text>
+            <Text textAlign="left" mb={6}>
+              Berhati-hatilah ketika anda melakukan transaksi, karena jumlah kegagalan memasukan password hanya dapat dilakukan sebanyak 3 kali.
+              </Text>
+              </Container>
+            </Box>
+            </Box>
+            
             </Stack>
         </form>
 

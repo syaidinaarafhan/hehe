@@ -128,7 +128,21 @@
             </FormControl>
               <Button type="submit" colorScheme='gray.800' variant='ghost' color='white' sx={{'&:hover': {backgroundColor: 'white', color: '#222935' },}}>Konfirmasi</Button>
           </form>
+          <Box bg="gray.800" color="white" py={4} marginTop={10}>
+              <Container maxW="container.lg">
+              <Heading as="h2" size="lg" textAlign="center" mb={4}>
+              My-Idisii
+            </Heading>
+            <Text textAlign="left" mb={6}>
+            Pada My-Idisii terdapat berbagai menu dan display card yang akan menunjukan berbagai informasi seperti 
+            nama pengguna, ID Kartu, PIN, Nomor Kartu, dan Masa Berlaku kartu. Setiap menu transaksi memiliki fungsi yang dirancang 
+            sedemikian rupa agar dapat menyerupai mesin transaksi pada Mesin EDC yang sesungguhnya. Selamat Belajar :D
+            </Text>
+              </Container>
+            </Box>
       </Box>
+
+      
           <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
             <ModalOverlay />
             <ModalContent 
@@ -162,12 +176,17 @@
             </VStack>
           </Box>
 
+             
+            
+
           <Box bg="gray.800" color="darkgray" py={6}>
       <Container maxW="container.lg">
         <Text textAlign="center">&copy; 2023 Syaidina Arafhan & Atthariq Maulana. All rights reserved.</Text>
       </Container>
     </Box>
-          <p>Pin : {pin1}</p>
+
+    
+        
         </>
       );
     }

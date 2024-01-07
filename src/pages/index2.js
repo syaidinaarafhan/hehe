@@ -34,9 +34,6 @@ export default function Home() {
             </Text>
               </Container>
             </Box>
-
-            <Box bg="gray.800" color="white" py={4}>
-            </Box>
             </Box>
 
            <Box bg="#222935" p={2} style={{ display: 'flex', justifyContent: 'center'}}>

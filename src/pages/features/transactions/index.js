@@ -12,6 +12,22 @@ export default function index() {
     </Container>
   </Box>
 
+  <Box bg="#222935" p={10} style={{ display: 'flex', justifyContent: 'center'}}>
+            <Box bg="gray.800" color="white" py={4}>
+              <Container maxW="container.lg">
+              <Heading as="h2" size="lg" textAlign="center" mb={4}>
+              My-Idisii
+            </Heading>
+            <Text textAlign="left" mb={6}>
+            Terdapat berbagai metode transaksi yang dapat dilakukan oleh anda. Seluruh pembayaran akan 
+            dilakukan via kartu kredit, sehingga setiap transaksi yang dilakukan akan mengurangi jumlah saldo anda.
+            Ketika akan melakukan transaksi, pastikan seluruh validasi dan otentikasi yang anda inputkan sudah benar, 
+            agar aplikasi proses berjalannya transaksi tidak terhambat
+            </Text>
+              </Container>
+            </Box>
+            </Box>
+
   <Box bg="#222935" p={5} style={{ display: 'flex', justifyContent: 'center'}}>
   <VStack spacing={3} align="stretch" bg="#222935" p={5} justifyContent="center">
       <Button colorScheme='gray.800' variant='ghost' color='white' sx={{
