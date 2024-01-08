@@ -71,6 +71,7 @@
     };
 
     const pin = userCard && userCard.length > 0 ? userCard[0].pin : null;
+    const limitDebit = userCard && userCard.length > 0 ? userCard[0].nominalLimit : null;
 
     const toast = useToast();
 
@@ -81,39 +82,49 @@
         amount: "",
       },
       onSubmit: async (values) => {
-        if (!formik.values.pin) {
+
+        if (formik.values.amount > limitDebit) {
+          setModalOpen(false);
           toast({
-            title: "PIN harus diisi",
-              status: "error",
+            title: "Limit Debit Anda Sudah Tercapai",
+            status: "warning"
+        })
+        }else {
+
+          if (!formik.values.pin) {
+            toast({
+              title: "PIN harus diisi",
+                status: "error",
+            });
+          }else if (values.pin !== pin.toString()) {
+            setWrongPinAttempts(wrongPinAttempts + 1);
+        if (wrongPinAttempts >= 2) {
+          toast({
+            title: "Percobaan PIN sudah mencapai batas. Silakan coba lagi nanti.",
+            status: "error",
           });
-        }else if (values.pin !== pin.toString()) {
-          setWrongPinAttempts(wrongPinAttempts + 1);
-      if (wrongPinAttempts >= 2) {
-        toast({
-          title: "Percobaan PIN sudah mencapai batas. Silakan coba lagi nanti.",
-          status: "error",
-        });
-        router.push('/dashboard');
-      } else {
-        toast({
-          title: "PIN tidak sesuai. Percobaan ke-" + (wrongPinAttempts + 1),
-          status: "error",
-        });
-      }
-        }else{
-          const { amount} = formik.values;
-        CreateProduct({
-          amount: parseInt(amount),
-        });
-  
-        toast({
-          title: "Transaction done",
-          status: "success",
-        });
-        formik.setValues({
-          amount: "",
-        });
-        setModalOpen(false);
+          router.push('/dashboard');
+        } else {
+          toast({
+            title: "PIN tidak sesuai. Percobaan ke-" + (wrongPinAttempts + 1),
+            status: "error",
+          });
+        }
+          }else{
+            const { amount} = formik.values;
+          CreateProduct({
+            amount: parseInt(amount),
+          });
+    
+          toast({
+            title: "Transaction done",
+            status: "success",
+          });
+          formik.setValues({
+            amount: "",
+          });
+          setModalOpen(false);
+          }
         }
       },
     });
@@ -145,7 +156,6 @@
         <ReceiptModal
           isOpen={insertCardData !== null}
           onClose={() => {
-            setReceiptData(0);
             router.push('/dashboard');
           }}
           modalReceiptData={insertCardData}

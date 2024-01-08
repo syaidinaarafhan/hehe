@@ -61,13 +61,17 @@ export default function Void() {
         setModalOpen(false);
         if (!transactionData) {
           toast({
-            title: "Data Not Found",
-            description: "Transaction data not found.",
-            status: "warning",
-            duration: 5000,
+            title: "Missing TraceNumber",
+            status: "error",
+            duration: '3000',
             isClosable: true,
           });
         } else {
+          toast({
+            title: 'Transaction Found',
+            status: 'success',
+            isClosable: true,
+          });
           setModalOpen(true);
           setTransaction(transactionData);
         }

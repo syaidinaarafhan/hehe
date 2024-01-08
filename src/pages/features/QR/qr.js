@@ -110,11 +110,9 @@ import ReceiptModal from "@/components/receipt";
             />
           </Box>
 
-
       <ReceiptModal
         isOpen={isReceiptOpen}
         onClose={() => {
-          setReceiptData(0);
           router.push('/dashboard');
         }}
         modalReceiptData={insertCardData}

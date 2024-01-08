@@ -135,7 +135,6 @@ import Card from "@/components/card";
         <ReceiptModal
           isOpen={insertCardData !== null}
           onClose={() => {
-            setReceiptData(0);
             router.push('/dashboard');
           }}
           modalReceiptData={insertCardData}

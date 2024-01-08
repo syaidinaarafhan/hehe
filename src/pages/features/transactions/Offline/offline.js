@@ -5,7 +5,7 @@ import { Button, FormControl, FormLabel, Input,
   ModalContent,
   ModalHeader,
   ModalBody,
-  ModalCloseButton, } from '@chakra-ui/react';
+  ModalCloseButton, Container, Heading} from '@chakra-ui/react';
 import { axiosInstance } from '@/lib/axios';
 import { useEffect, useState } from 'react';
 import { HamburgerIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
@@ -124,13 +124,15 @@ import { useOfflineTransaksi } from '../../Mutate/useOfflineTransaksi';
     return (
       <>
       <Card />
+
+      <Box bg="gray.800" py={6} px={4} boxShadow="lg" width="100%">
+    <Container maxW="container.lg" textAlign="center">
+      <Heading color="darkgray">Offline</Heading>  
+    </Container>
+      </Box>
         <Box flexDirection="column" bg="black" pb="10" pt="7" pr={3} pl={3} m={100} w="auto">
           <VStack spacing={3} bg={"#cd6600"} p="-10">
-            <Box boxSize="70%">
-              <Image src='http://pinisichoir.mhs.unm.ac.id/wp-content/uploads/sites/4/2018/02/Bank-Mandiri-Logo-Vector-Image.png'
-                objectFit="cover"
-              />
-            </Box>
+            
 
         <ReceiptModal
           isOpen={insertCardData !== null}
@@ -194,13 +196,15 @@ import { useOfflineTransaksi } from '../../Mutate/useOfflineTransaksi';
             </ModalContent>
           </Modal>
           </VStack>
-          <Box display="flex" justifyContent="space-between" pt={4}>
-            <ArrowLeftIcon color={"white"}></ArrowLeftIcon>
-            <HamburgerIcon color={"white"}></HamburgerIcon>
-            <ArrowRightIcon color={"white"}></ArrowRightIcon>
-          </Box>
+         
+          
         </Box>
-      </>
-    );
-  }
-  
+
+        <Box bg="gray.800" color="darkgray" py={6}>
+      <Container maxW="container.lg">
+        <Text textAlign="center">&copy; 2023 Syaidina Arafhan & Atthariq Maulana. All rights reserved.</Text>
+      </Container>
+    </Box>
+      </>
+    );
+  }

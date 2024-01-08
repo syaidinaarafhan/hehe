@@ -67,7 +67,6 @@ export default function Audit() {
           Settlement
         </Button>
       )}
-      <ul>
         {transactions.map((transaction) => (
           <li key={transaction.id}>
             <Tabs>
@@ -82,7 +81,6 @@ export default function Audit() {
             </Tabs>
           </li>
         ))}
-      </ul>
       <Modal isOpen={isModalOpen} onClose={handleModalClose}>
         <ModalOverlay />
         <ModalContent>

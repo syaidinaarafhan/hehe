@@ -19,6 +19,12 @@ const FindTransactionForm = ({ onTransactionFound }) => {
         });
 
         onTransactionFound(transactionData);
+      }else {
+        toast({
+          title: 'Missing TraceNumber',
+          status: 'error',
+          duration: '3000'
+        })
       }
     } catch (error) {
       console.error("Error fetching transaction data:", error);
