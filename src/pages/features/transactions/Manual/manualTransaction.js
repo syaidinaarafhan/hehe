@@ -1,41 +1,51 @@
-import {
-    useToast,
-    FormControl,
-    FormLabel,
-    Input,
-    Button,
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalBody,
-    ModalCloseButton,
-    Image,
-    Box,
-    VStack,
-  } from "@chakra-ui/react";
+import {useToast, Stack, Text, FormControl,FormLabel, Input, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, Box, Image, VStack,Container, Heading} from "@chakra-ui/react";
 import { useFormik } from "formik";
 import { useCreateProduct } from "@/pages/features/Mutate/useCreateTransaksi";
 import { useEffect, useState } from "react";
 import { axiosInstance } from "@/lib/axios";
 import { useRouter } from "next/router";
-import { HamburgerIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
+import Card from "@/components/card";
   
   export default function InsertCard() {
 
     const router = useRouter()
 
-    const [isiKartu, setIsiKartu] = useState(null);
+    const [userCard, setUserCard] = useState(null);
 
-    useEffect(() => {
-      axiosInstance.get('/api/getData')
-      .then(response => {
-          setIsiKartu(response.data.isiKartu);
-      })
-      .catch(error => {
-          console.error('Error fetching data:', error);
+    const fetchCards = () => {
+      axiosInstance
+        .get('/cards')
+        .then((response) => {
+          setUserCard(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
         });
+    };
+  
+    useEffect(() => {
+      fetchCards();
     }, []);
+  
+    const renderCard = () => {
+      if (userCard) {
+        return (
+          <div>
+            {userCard.map((card) => (
+              <div key={card.id}>
+                <div>pin = {card.pin}</div>
+                <div>nomor kartu = {card.noKartu}</div>
+                <div>exp Kartu = {card.cardExp}</div>
+                <div>Limit Debit = {card.nominalLimit}</div>
+                <div>Limit Deposit = {card.deposit}</div>
+              </div>
+            ))}
+          </div>
+        );
+      }
+    };
+  
+    const pin = userCard && userCard.length > 0 ? userCard[0].pin : null;
 
     const toast = useToast();
     const [isModalOpen, setModalOpen] = useState(false);
@@ -98,26 +108,29 @@ import { HamburgerIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
   
     return (
       <>
-      <Box flexDirection="column" bg="black" pb="10" pt="7" pr={3} pl={3} m={100} w="auto">
-          <VStack spacing={3} bg={"#cd6600"} p="-10">
-            <Box boxSize="70%">
-                <Image src='http://pinisichoir.mhs.unm.ac.id/wp-content/uploads/sites/4/2018/02/Bank-Mandiri-Logo-Vector-Image.png'
-                objectFit="cover"
-                />
-            </Box>
 
+<Box bg="gray.800" py={6} px={4} boxShadow="lg" width="100%">
+  <Container maxW="container.lg" textAlign="center">
+    <Heading color="darkgray">Manual</Heading>  
+  </Container>
+    </Box>
+
+<Card/>
+
+          <Box bg="#222935" p={5} style={{ display: 'flex', justifyContent: 'center'}}>
+            <VStack spacing={3} align="stretch" bg="#222935" p={5} justifyContent="center">
         <ReceiptModal
           isOpen={insertCardData !== null}
           onClose={() => {
             setReceiptData(0);
-            router.push('/');
+            router.push('/dashboard');
           }}
           modalReceiptData={insertCardData}
         />
-  <Box pb="50%">
+    <Box pb="50%">
         <form onSubmit={formik.handleSubmit}>
           <FormControl pb="5">
-            <FormLabel>Harga</FormLabel>
+            <FormLabel color="white">Harga</FormLabel>
             <Input
               type="number"
               onChange={handleFormInput}
@@ -126,12 +139,16 @@ import { HamburgerIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
               value={formik.values.totalHarga}
             />
           </FormControl>
-            <Button type="submit" bg="gray">Submit Product</Button>
+          <Button type="submit" marginTop="20px" marginBottom="20" colorScheme='gray.800' variant='ghost' color='white' sx={{'&:hover': {backgroundColor: 'white', color: '#222935' },}}>Konfirmasi</Button>
         </form>
         </Box>  
           </VStack>
       </Box>
-
+      <Box bg="gray.800" color="darkgray" p={6}>
+        <Container maxW="container.lg">
+          <Text textAlign="center">&copy; 2023 Syaidina Arafhan & Atthariq Maulana. All rights reserved.</Text>
+        </Container>
+      </Box>
       </>
     );
 } 

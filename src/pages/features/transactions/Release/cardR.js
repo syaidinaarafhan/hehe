@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
 import {useToast, FormControl,FormLabel, Input, Button, Stack, Text, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, Box, Image, VStack,Container, Heading,} from "@chakra-ui/react";
-import { useEffect, useState } from 'react';
+import { Component, useEffect, useState } from 'react';
 import { axiosInstance } from '@/lib/axios';
-import { HamburgerIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
+import Card from '@/components/card';
 
 export default function cardI () {
     const router = useRouter();
@@ -41,24 +41,9 @@ export default function cardI () {
         <Heading color="darkgray">RELEASE</Heading>  
         </Container>
             </Box>
-                <Box bg="#222935" p={5} style={{ display: 'flex', justifyContent: 'center'}}>
-                <VStack spacing={3} align="stretch" bg="#222935" p={5} justifyContent="center">
+            <Card/>
 
-        <form onSubmit={formik.handleSubmit}>
-            <Stack spacing={4} pb="70%">
-                <FormControl>
-                    <FormLabel color="white">Kartu</FormLabel>
-                    <Input color="white"
-                        type="text"
-                        id="kartu"
-                        name="kartu"
-                        onChange={formik.handleChange}
-                        value={formik.values.kartu}
-                    />
-                </FormControl>
-
-                <Button type="submit" marginTop="20px" colorScheme='gray.800' variant='ghost' color='white' sx={{'&:hover': {backgroundColor: 'white', color: '#222935' },}}>Konfirmasi</Button>
-                <Box bg="#222935" p={10} style={{ display: 'flex', justifyContent: 'center'}}>
+            <Box bg="#222935" p={10} style={{ display: 'flex', justifyContent: 'center'}}>
             <Box bg="gray.800" color="white" py={4}>
               <Container maxW="container.lg">
             <Text textAlign="left" mb={6}>
@@ -72,7 +57,24 @@ export default function cardI () {
               </Container>
             </Box>
             </Box>
-            
+
+                <Box bg="#222935" p={5} style={{ display: 'flex', justifyContent: 'center'}}>
+                <VStack spacing={3} align="stretch" bg="#222935" p={5} justifyContent="center">
+
+        <form onSubmit={formik.handleSubmit}>
+            <Stack spacing={4} pb="70%">
+                <FormControl>
+                    <FormLabel color="white">Nomor Kartu</FormLabel>
+                    <Input color="white"
+                        type="text"
+                        id="kartu"
+                        name="kartu"
+                        onChange={formik.handleChange}
+                        value={formik.values.kartu}
+                    />
+                </FormControl>
+
+                <Button type="submit" marginTop="20px" colorScheme='gray.800' variant='ghost' color='white' sx={{'&:hover': {backgroundColor: 'white', color: '#222935' },}}>Konfirmasi</Button>
             </Stack>
         </form>
 
@@ -85,7 +87,7 @@ export default function cardI () {
         <Text textAlign="center">&copy; 2023 Syaidina Arafhan & Atthariq Maulana. All rights reserved.</Text>
       </Container>
     </Box>
-        <p>Nama Kartu : {kartu1}</p>
+    
         </>
     )
 }

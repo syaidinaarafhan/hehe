@@ -1,55 +1,82 @@
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
-import { Button, FormControl, FormLabel, Input, Stack, Text, Box, Image, VStack } from '@chakra-ui/react';
+import {useToast, Stack, Text, FormControl,FormLabel, Input, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, Box, Image, VStack,Container, Heading} from "@chakra-ui/react";
 import { useEffect, useState } from 'react';
 import { axiosInstance } from '@/lib/axios';
 import { HamburgerIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
+import Card from '@/components/card';
 
 export default function cardE () {
     const router = useRouter();
 
     const [isiKartu, setIsiKartu] = useState(null);
 
-    useEffect(() => {
-        axiosInstance.get('/api/getData')
-        .then(response => {
-            setIsiKartu(response.data.isiKartu);
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-          });
-      }, []);
+    const [userCard, setUserCard] = useState(null);
 
-    const cardExpiry = isiKartu?.cardExpiry ?? 'Data gaada'
+    const fetchCards = () => {
+      axiosInstance
+        .get('/cards')
+        .then((response) => {
+          setUserCard(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+  
+    useEffect(() => {
+      fetchCards();
+    }, []);
+  
+    const renderCard = () => {
+      if (userCard) {
+        return (
+          <div>
+            {userCard.map((card) => (
+              <div key={card.id}>
+                <div>pin = {card.pin}</div>
+                <div>nomor kartu = {card.noKartu}</div>
+                <div>exp Kartu = {card.cardExp}</div>
+                <div>Limit Debit = {card.nominalLimit}</div>
+                <div>Limit Deposit = {card.deposit}</div>
+              </div>
+            ))}
+          </div>
+        );
+      }
+    };
+  
+    const cardExpiry = userCard && userCard.length > 0 ? userCard[0].cardExp : null;
 
     const formik = useFormik({
         initialValues: {
             cardExpiry: '',
         },onSubmit: values => {
-            if (values.cardExpiry == cardExpiry) {
+            if (values.cardExpiry == cardExpiry.toString()) {
                 router.push('manualTransaction');
             }else{
-            router.push('/');
+            router.push('/dashboard');
             }
         }
     });
 
     return (
         <>
+         <Box bg="gray.800" py={6} px={4} boxShadow="lg" width="100%">
+            <Container maxW="container.lg" textAlign="center">
+              <Heading color="darkgray">Manual</Heading>  
+            </Container>
+          </Box>
+        <Card />
 
-        <Box display="flex" flexDirection="column" bg="black" pb="10" pt="7" pr={3} pl={3} m={100} w="auto">
-            <VStack spacing={3} bg={"#cd6600"} p="-10">
-                <Box boxSize="70%">
-                    <Image src='http://pinisichoir.mhs.unm.ac.id/wp-content/uploads/sites/4/2018/02/Bank-Mandiri-Logo-Vector-Image.png'
-                    objectFit="cover"
-                    />
-                </Box>
+        <Box bg="#222935" p={5} style={{ display: 'flex', justifyContent: 'center'}}>
+          <VStack spacing={3} align="stretch" bg="#222935" p={5} justifyContent="center">
 
             <form onSubmit={formik.handleSubmit}>
             <Stack spacing={4} pb="70%">
                 <FormControl>
-                    <FormLabel>cardExpiry</FormLabel>
-                    <Input
+                    <FormLabel color="white" marginBottom="10px">Masa Berlaku</FormLabel>
+                    <Input color="white"
                         type="text"
                         id="cardExpiry"
                         name="cardExpiry"
@@ -58,18 +85,18 @@ export default function cardE () {
                     />
                 </FormControl>
 
-                <Button type="submit">Submit</Button>
+                <Button type="submit" marginTop="20px" colorScheme='gray.800' variant='ghost' color='white' sx={{'&:hover': {backgroundColor: 'white', color: '#222935' },}}>Konfirmasi</Button>
             </Stack>
         </form>
 
             </VStack>
-        <Box display="flex" justifyContent="space-between" pt={4}>
-            <ArrowLeftIcon color={"white"}></ArrowLeftIcon>
-            <HamburgerIcon color={"white"}></HamburgerIcon>
-            <ArrowRightIcon color={"white"}></ArrowRightIcon>
-          </Box>
         </Box>
-        <p>Card Expired : {cardExpiry}</p>
+
+        <Box bg="gray.800" color="darkgray" py={6}>
+    <Container maxW="container.lg">
+      <Text textAlign="center">&copy; 2023 Syaidina Arafhan & Atthariq Maulana. All rights reserved.</Text>
+    </Container>
+  </Box>
         </>
     )
 }

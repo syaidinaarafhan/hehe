@@ -80,7 +80,7 @@ import ReceiptModal from "@/components/receipt";
         <QRCode value={qrCodeValue}/>
       )}
       <Button onClick={handleClose} marginTop="20px"colorScheme='gray.800' variant='ghost' color='white' sx={{'&:hover': {backgroundColor: 'white', color: '#222935' },}}>
-        Tampilkan QR</Button>
+        Tampilkan Receipt</Button>
     </ModalBody>
   </ModalContent>
         </Modal>
@@ -104,6 +104,16 @@ import ReceiptModal from "@/components/receipt";
       
     </Container>
   </Box>
+
+  <Box bg="#222935" p={10} style={{ display: 'flex', justifyContent: 'center'}}>
+            <Box bg="gray.800" color="white" py={4}>
+              <Container maxW="container.lg">
+            <Text textAlign="left" mb={6}>
+            Menu Kode QR menjadi pintu gerbang bagi pengguna untuk mengakses informasi dengan cepat dan efisien. Di sini, pengguna dapat mengeksplorasi fungsi QR Code yang memungkinkan akses instan ke berbagai sumber daya pembelajaran terkait mesin EDC. Menu ini memungkinkan pengguna untuk memindai dan menghasilkan kode QR yang terkait dengan materi pembelajaran, modul simulasi, atau sumber informasi lainnya. Pengguna dapat dengan mudah mengeksplorasi dan membaca konten edukatif dengan menggunakan teknologi QR Code yang efektif ini. Melalui menu ini, pengguna dapat memperluas pemahaman mereka tentang mekanisme dan aplikasi praktis dari mesin EDC dalam kehidupan sehari-hari.
+            </Text>
+              </Container>
+            </Box>
+            </Box>
 
   <Box bg="#222935" p={5} style={{ display: 'flex', justifyContent: 'center'}}>
   <VStack spacing={3} align="stretch" bg="#222935" p={5} justifyContent="center">

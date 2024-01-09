@@ -1,9 +1,10 @@
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
-import { Button, FormControl, FormLabel, Input, Stack, VStack, Image, Box } from '@chakra-ui/react';
+import { useToast, FormControl, FormLabel, Input, Button, Stack, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, Link, Box, VStack, Image, Container, Heading, Text, Grid, GridItem} from "@chakra-ui/react";
 import { useEffect, useState } from 'react';
 import { axiosInstance } from '@/lib/axios';
-import { HamburgerIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
+import Card from '@/components/card'
+
 
 export default function cardI () {
     const router = useRouter();
@@ -36,18 +37,20 @@ export default function cardI () {
 
     return (
         <>
-        <Box flexDirection="column" bg="black" pb="10" pt="7" pr={3} pl={3} m={100} w="auto">
-          <VStack spacing={3} bg={"#cd6600"} p="-10">
-            <Box boxSize="70%">
-                <Image src='http://pinisichoir.mhs.unm.ac.id/wp-content/uploads/sites/4/2018/02/Bank-Mandiri-Logo-Vector-Image.png'
-                objectFit="cover"
-                />
-            </Box>
 
+<Box bg="gray.800" py={6} px={4} boxShadow="lg" width="100%">
+  <Container maxW="container.lg" textAlign="center">
+    <Heading color="darkgray">Open Card</Heading>  
+  </Container>
+    </Box>
+    <Card />
+
+    <Box bg="#222935" p={20} style={{ display: 'flex', justifyContent: 'center'}}>
+          <VStack spacing={3} align="stretch" bg="#222935" p={5} justifyContent="center">
             <form onSubmit={formik.handleSubmit}>
             <Stack spacing={4} pb="70%">
                 <FormControl>
-                    <FormLabel>Kartu</FormLabel>
+                    <FormLabel color="white">Nomor Kartu</FormLabel>
                     <Input
                         type="text"
                         id="kartu"
@@ -57,18 +60,19 @@ export default function cardI () {
                     />
                 </FormControl>
 
-                <Button type="submit" bg="gray">Submit</Button>
+                <Button type="submit" colorScheme='gray.800' variant='ghost' color='white' sx={{'&:hover': {backgroundColor: 'white', color: '#222935' },}}>Submit</Button>
             </Stack>
         </form>
             
         </VStack>
-        <Box display="flex" justifyContent="space-between" pt={4}>
-            <ArrowLeftIcon color={"white"}></ArrowLeftIcon>
-            <HamburgerIcon color={"white"}></HamburgerIcon>
-            <ArrowRightIcon color={"white"}></ArrowRightIcon>
+      
         </Box>
-        </Box>
-        <p>Nama Kartu : {kartu1}</p>
+
+        <Box bg="gray.800" color="darkgray" py={6}>
+    <Container maxW="container.lg">
+      <Text textAlign="center">&copy; 2023 Syaidina Arafhan & Atthariq Maulana. All rights reserved.</Text>
+    </Container>
+  </Box>
         </>
     )
 }

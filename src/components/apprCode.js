@@ -34,18 +34,27 @@ const ApprovalCodeForm = ({ onTransactionFound }) => {
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <FormControl pb="5">
-        <FormLabel color="white">Approval Code</FormLabel>
-        <Input
-          type="text"
-          name="apprCode"
-          value={formik.values.apprCode}
-          onChange={formik.handleChange}
-        />
-        <Button mt={4} colorScheme="gray" type="submit">
-          Telusuri
+      <FormControl pb="8">
+            <FormLabel color="white" marginBottom="15px">approval Code</FormLabel>
+            <Input color="white"
+              type="number"
+              name="apprCode"
+            value={formik.values.apprCode}
+            onChange={formik.handleChange}
+            />
+          </FormControl>
+
+
+
+        <Button type='submit' colorScheme='gray' variant='ghost' color='white' marginBottom= '10' sx={{
+    '&:hover': {
+      backgroundColor: 'white',
+      color: '#222935',
+    },
+  }}>
+          Find Transaction
         </Button>
-      </FormControl>
+
     </form>
   );
 };

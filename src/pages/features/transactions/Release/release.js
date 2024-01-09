@@ -1,19 +1,9 @@
-import {
-  useToast,
-  FormControl,
-  FormLabel,
-  Input,
-  Button,
-  Box,
-  VStack,
-  Image,
-} from "@chakra-ui/react";
+import { useToast, FormControl, FormLabel, Input, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, Link, Box, VStack, Image, Container, Heading, Text, Grid, GridItem} from "@chakra-ui/react";
 import { useFormik } from "formik";
 import { useRelease } from "../../Mutate/useRelease";
 import { useEffect, useState } from "react";
 import { axiosInstance } from "@/lib/axios";
 import { useRouter } from "next/router";
-import { ArrowLeftIcon, HamburgerIcon, ArrowRightIcon } from '@chakra-ui/icons';
 import Card from "@/components/card";
 import ReceiptModal from "@/components/receipt";
 
@@ -22,18 +12,43 @@ export default function InsertCard() {
 
   const [isiKartu, setIsiKartu] = useState(null);
   const [wrongPinAttempts, setWrongPinAttempts] = useState(0);
+  const [userCard, setUserCard] = useState(null);
+
+  const fetchCards = () => {
+    axiosInstance
+      .get('/cards')
+      .then((response) => {
+        setUserCard(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   useEffect(() => {
-    axiosInstance.get('/api/getData')
-      .then(response => {
-        setIsiKartu(response.data.isiKartu);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
+    fetchCards();
   }, []);
 
-  const pin1 = isiKartu?.pin ?? 'Data gaada';
+  const renderCard = () => {
+    if (userCard) {
+      return (
+        <div>
+          {userCard.map((card) => (
+            <div key={card.id}>
+              <div>pin = {card.pin}</div>
+              <div>nomor kartu = {card.noKartu}</div>
+              <div>exp Kartu = {card.cardExp}</div>
+              <div>Limit Debit = {card.nominalLimit}</div>
+              <div>Limit Deposit = {card.deposit}</div>
+            </div>
+          ))}
+        </div>
+      );
+    }
+  };
+
+  const pin = userCard && userCard.length > 0 ? userCard[0].pin : null;
+
   const toast = useToast();
 
   const formik = useFormik({
@@ -46,14 +61,14 @@ export default function InsertCard() {
           title: "PIN harus diisi",
           status: "error",
         });
-      } else if (values.pin !== pin1) {
+      } else if (values.pin !== pin.toString()) {
         setWrongPinAttempts(wrongPinAttempts + 1);
         if (wrongPinAttempts >= 2) {
           toast({
             title: "Percobaan PIN sudah mencapai batas. Silakan coba lagi nanti.",
             status: "error",
           });
-          router.push('/');
+          router.push('/dashboard');
         } else {
           toast({
             title: "PIN tidak sesuai. Percobaan ke-" + (wrongPinAttempts + 1),
@@ -85,43 +100,43 @@ export default function InsertCard() {
 
   return (
     <>
-      <Card />
-      <Box flexDirection="column" bg="black" pb="10" pt="7" pr={3} pl={3} m={100} w="auto">
-        <VStack spacing={3} bg={"#cd6600"} p="-10">
-          <Box boxSize="70%">
-            <Image src='http://pinisichoir.mhs.unm.ac.id/wp-content/uploads/sites/4/2018/02/Bank-Mandiri-Logo-Vector-Image.png'
-              objectFit="cover"
-            />
-          </Box>
-
+<Box bg="gray.800" py={6} px={4} boxShadow="lg" width="100%">
+  <Container maxW="container.lg" textAlign="center">
+    <Heading color="darkgray">Offline</Heading>  
+  </Container>
+    </Box>
+      <Card/>
+      <Box bg="#222935" p={5} style={{ display: 'flex', justifyContent: 'center'}}>
+            <VStack spacing={3} align="stretch" bg="#222935" p={5} justifyContent="center">
           <Box pb="50%">
             <form onSubmit={formik.handleSubmit}>
-              <FormControl pb="5">
-                <FormLabel>PIN</FormLabel>
-                <Input color="white"
+            <FormControl pb="5">
+              <FormLabel color="white">PIN</FormLabel>
+              <Input
                   type="password"
+                  color="white"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   name="pin"
                   id="pin"
                   value={formik.values.pin}
                 />
-              </FormControl>
+              </FormControl> 
               {createProductsIsLoading ? (
                 <Spinner />
               ) : (
-                <Button type="submit" bg="gray">Submit Product</Button>
+                <Button type="submit" colorScheme='gray.800' variant='ghost' color='white' sx={{'&:hover': {backgroundColor: 'white', color: '#222935' },}}>Konfirmasi</Button>
               )}
             </form>
           </Box>
         </VStack>
-       
+      
       </Box>
       <Box bg="gray.800" color="darkgray" py={6}>
-      <Container maxW="container.lg">
-        <Text textAlign="center">&copy; 2023 Syaidina Arafhan & Atthariq Maulana. All rights reserved.</Text>
-      </Container>
-    </Box>
+    <Container maxW="container.lg">
+      <Text textAlign="center">&copy; 2023 Syaidina Arafhan & Atthariq Maulana. All rights reserved.</Text>
+    </Container>
+  </Box>
     </>
   );
 }

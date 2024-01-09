@@ -1,4 +1,4 @@
-import { Container, Heading, Link, Button, Box, Image, Text, VStack} from "@chakra-ui/react";
+import { useToast, FormControl, FormLabel, Input, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, Link, Box, VStack, Image, Container, Heading, Text, Grid, GridItem} from "@chakra-ui/react";
 import { useEffect, useState, Fragment } from 'react';
 import { axiosInstance } from "@/lib/axios"
 import { HamburgerIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
@@ -14,30 +14,30 @@ export default function Home() {
 
   return (
     <>
-
-<Box bg="gray.800" py={6} px={4} boxShadow="lg" width="100%">
-    <Container maxW="container.lg" textAlign="center">
-      <Heading color="darkgray">Summary</Heading>
-      </Container>
-      </Box>
-    <Card/>
-                <Box bg="#222935" p={2} style={{ display: 'flex', justifyContent: 'center'}}>
-                <VStack spacing={3} align="stretch" bg="#222935" p={5} justifyContent="center">
+     <Box bg="gray.800" py={6} px={4} boxShadow="lg" width="100%">
+  <Container maxW="container.lg" textAlign="center">
+    <Heading color="darkgray">SALE</Heading>  
+  </Container>
+    </Box>
+    <Card />
+    <Box bg="#222935" p={5} style={{ display: 'flex', justifyContent: 'center'}}>
+          <VStack spacing={3} align="stretch" bg="#222935" p={5} justifyContent="center">
+        
           <Button colorScheme='gray.800' variant='ghost' color='white' sx={{
-                  '&:hover': {
-                      backgroundColor: 'white', color: '#222935'},
-                      }}>
+              '&:hover': {
+                backgroundColor: 'white',
+                color: '#222935',},}}>
                 <Link href = "../Summary/audit">Audit</Link>
               </Button>
               <Button colorScheme='gray.800' variant='ghost' color='white' sx={{
-                  '&:hover': {
-                      backgroundColor: 'white', color: '#222935'},
-                      }}>
+                '&:hover': {
+                  backgroundColor: 'white',
+                  color: '#222935',},}}>
                 <Link href = "../Summary/summary">Summary</Link>
               </Button>
             </VStack>
+        
         </Box>
-
 
         <Box bg="gray.800" color="darkgray" py={6}>
       <Container maxW="container.lg">

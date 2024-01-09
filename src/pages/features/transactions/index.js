@@ -1,16 +1,20 @@
 import { Link, Button, Box, VStack, Image, Container, Heading, Text, Grid, GridItem} from "@chakra-ui/react";
-import { HamburgerIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
 import Card from "@/components/card";
 
 export default function index() {
     return (
         <>
-<Box bg="gray.800" py={6} px={4} boxShadow="lg" width="100%">
-    <Container maxW="container.lg" textAlign="center">
-      <Heading color="darkgray">Transaksi</Heading>
-      
-    </Container>
-  </Box>
+<Box bg="gray.800" py={6} px={4} boxShadow="lg" width="100%" display="flex" alignItems="center" justifyContent="space-between">
+  <Container maxW="container.lg" textAlign="center" display="flex" alignItems="center" justifyContent="center">
+    <Box flex="1" textAlign="left"> 
+      <Heading as="h1" color="darkgray">Transaction</Heading>
+    </Box>
+    <Button colorScheme='gray.800' variant='ghost' color='white' sx={{
+      '&:hover': {backgroundColor: 'white',color: '#222935',},}}>
+          <Link href="../dataTransaksi">History</Link>
+        </Button>
+  </Container>
+</Box>
 
   <Box bg="#222935" p={10} style={{ display: 'flex', justifyContent: 'center'}}>
             <Box bg="gray.800" color="white" py={4}>

@@ -9,7 +9,7 @@ const FindTransactionForm = ({ onTransactionFound }) => {
   const handleFormSubmit = async (values) => {
     try {
       const response = await axiosInstance.get(`/find/${values.traceNumber}`);
-      const transactionData = await response.data;
+      const transactionData = await response.data.data;
 
       if (transactionData) {
         toast({
@@ -33,16 +33,14 @@ const FindTransactionForm = ({ onTransactionFound }) => {
   return (
     <form onSubmit={formik.handleSubmit}>
       <FormControl pb="5">
-        <FormLabel>traceNumber</FormLabel>
-        <Input
+      <FormLabel color="white" marginBottom="10px">Trace Number</FormLabel>
+        <Input color="white"
           type="text"
           name="traceNumber"
           value={formik.values.traceNumber}
           onChange={formik.handleChange}
         />
-        <Button mt={4} colorScheme="gray" type="submit">
-          Find Transaction
-        </Button>
+        <Button marginTop="20px" colorScheme='gray.800' variant='ghost' color='white' sx={{'&:hover': {backgroundColor: 'white', color: '#222935' },}} type="submit" >Telusuri</Button>
       </FormControl>
     </form>
   );

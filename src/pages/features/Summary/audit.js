@@ -1,9 +1,11 @@
 import { axiosInstance } from '@/lib/axios';
-import { TabList, Tabs, Box, Tab } from '@chakra-ui/react';
+import { useToast, FormControl, FormLabel, Input, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, Link, Box, VStack, Image, Container, Heading, Text, Grid, GridItem} from "@chakra-ui/react";
+
 import { useEffect, useState } from 'react';
 
+
 export default function audit() {
-    const [transactions, setTransactions] = useState([]);
+    const [transactions, setTransactions] = useState();
 
     useEffect(() => {
         const fetchTransactions = async () => {
@@ -20,27 +22,31 @@ export default function audit() {
 
     return (
         <>
-        <div>
-      <ul>
-        {transactions.map((transaction) => (
-          <li key={transaction.id}>
-            <Tabs>
-               <Box display="flex" flexDirection="column">
-                <TabList>
-                  <div>Kartu: {transaction.kartu}</div>
-                  <div>Total Harga: {transaction.totalHarga}</div>
-                  <div>Trace Number : {transaction.traceNumber},</div>
-                </TabList>
+                <Box bg="gray.800" py={6} px={4} boxShadow="lg" width="100%" display="flex" alignItems="center" justifyContent="space-between">
+                  <Container maxW="container.lg" textAlign="center" display="flex" alignItems="center" justifyContent="center">
+                    <Box flex="1" textAlign="left"> 
+                      <Heading as="h1" color="darkgray">Audit</Heading>
+                    </Box>
+                  </Container>
                 </Box>
-            </Tabs>
-            
-            
-            
-            
-          </li>
-        ))}
-      </ul>
-    </div>
+      
+                <Box bg="#222935" p={5} style={{ display: 'flex', justifyContent: 'center' }}>
+              <VStack spacing={6} align="stretch" bg="#222935" p={5} justifyContent="center" maxW="container.lg" width="100%">
+                {transactions.map((transaction) => (
+                  <Box key={transaction.id} borderRadius="lg" overflow="hidden" boxShadow="md" bg="gray.800" color="white" p={4}>
+                            <div>Kartu: {transaction.kartu}</div>
+                  <div>Total Harga: {transaction.totalHarga}</div>
+                  <div>Trace Number : {transaction.traceNumber}</div>
+                            </Box>
+                ))}
+              </VStack>
+            </Box>
+
+      <Box bg="gray.800" color="darkgray" py={6}>
+                    <Container maxW="container.lg">
+                      <Text textAlign="center">&copy; 2023 Syaidina Arafhan & Atthariq Maulana. All rights reserved.</Text>
+                    </Container>
+                  </Box>
         </>
     )
 }

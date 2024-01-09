@@ -2,8 +2,7 @@ import { axiosInstance } from "@/lib/axios";
 import { useFormik } from "formik"
 import { useRouter } from "next/router";
 import { useState, useEffect} from "react";
-import { Button, FormControl, FormLabel, Input, Stack, 
-    Text, Box, Image, VStack, useToast } from '@chakra-ui/react';
+import { useToast, FormControl, FormLabel, Input, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, Link, Box, VStack, Image, Container, Heading, Text, Grid, GridItem} from "@chakra-ui/react";
 import { HamburgerIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
 import ApprovalCodeForm from "@/components/apprCode";
 import Card from "@/components/card";
@@ -28,25 +27,42 @@ export default function approvalCode () {
       };    
         
    
-    return (
+      return (
         <>
-        <Card />
-        <Box flexDirection="column" bg="black" pb="10" pt="7" pr={3} pl={3} m={100} w="auto">
-          <VStack spacing={3} bg={"#cd6600"} p="-10">
-            <Box boxSize="70%">
-                <Image src='http://pinisichoir.mhs.unm.ac.id/wp-content/uploads/sites/4/2018/02/Bank-Mandiri-Logo-Vector-Image.png'
-                objectFit="cover"
-                />
+        <Box bg="gray.800" py={6} px={4} boxShadow="lg" width="100%">
+      <Container maxW="container.lg" textAlign="center">
+      <Heading color="darkgray">Offline</Heading>  
+      </Container>
+      </Box>
+      
+      <Card />
+      
+      <Box bg="#222935" p={10} style={{ display: 'flex', justifyContent: 'center'}}>
+            <Box bg="gray.800" color="white" py={4}>
+              <Container maxW="container.lg">
+            <Text textAlign="left" mb={6}>
+            Setelah mengenal Open Card, anda akan memehami penggunaan metode Offline. Yaitu penggunaan saldo yang telah didepositkan ketika melakukan Open card.
+            Mekanismenya ialah menggunakanvalidasi berupa 'Approval Code' yang didapat dari receipt open card. Setelah approval Code ditelusuri dan data valid, maka transaksi offline akan diproses
+            </Text>
+            <Text textAlign="left" mb={6}>
+              Berhati-hatilah ketika anda melakukan transaksi, karena jumlah kegagalan memasukan password hanya dapat dilakukan sebanyak 3 kali.
+              </Text>
+              </Container>
             </Box>
+            </Box>
+      <Box bg="#222935" p={5} style={{ display: 'flex', justifyContent: 'center'}}>
+      <VStack spacing={3} align="stretch" bg="#222935" p={5} justifyContent="center">
             <ApprovalCodeForm onTransactionFound={handleAppr} />
             <ConfirmationModal isOpen={confirm} onClose={() => setConfirm(false)} onConfirm={handleConfirm}/>
-          </VStack>
-          <Box display="flex" justifyContent="space-between" pt={4}>
-            <ArrowLeftIcon color={"white"}></ArrowLeftIcon>
-            <HamburgerIcon color={"white"}></HamburgerIcon>
-            <ArrowRightIcon color={"white"}></ArrowRightIcon>
-          </Box>
-        </Box>
-        </>
-    )
+            </VStack>
+  </Box>
+          
+  
+  <Box bg="gray.800" color="darkgray" py={6}>
+<Container maxW="container.lg">
+  <Text textAlign="center">&copy; 2023 Syaidina Arafhan & Atthariq Maulana. All rights reserved.</Text>
+</Container>
+</Box>
+  </>
+)
 }

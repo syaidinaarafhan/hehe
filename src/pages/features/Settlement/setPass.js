@@ -1,7 +1,7 @@
 import { axiosInstance } from "@/lib/axios";
 import { useFormik } from "formik";
 import { useState, useEffect } from "react";
-import { Link, Button, Box, VStack, Image, Stack, FormControl, FormLabel, Input, useToast, Container, Text, Heading} from "@chakra-ui/react";
+import { useToast, FormControl, FormLabel, Stack, Input, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, Link, Box, VStack, Image, Container, Heading, Text, Grid, GridItem} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { HamburgerIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
 
@@ -10,28 +10,14 @@ export default function setPass() {
     const router = useRouter();
     const toast = useToast();
 
-    const [isiKartu, setIsiKartu] = useState(null);
     const [isPinValid, setPinValid] = useState(true);
-    const [isPasswordModalOpen, setPasswordModalOpen] = useState(false);
-    const [enteredPassword, setEnteredPassword] = useState("");
 
-  useEffect(() => {
-    axiosInstance.get('/api/getData')
-      .then(response => {
-        setIsiKartu(response.data.isiKartu);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  }, []);
-
-  const pass = isiKartu?.password ?? "Data gaada";
 
   const formik = useFormik({
     initialValues: {
         password: '',
     },onSubmit: values => {
-        if (values.password == pass) {
+        if (values.password == '0000') {
           toast({
             title: "Password Benar!!",
             status: "success",
@@ -50,16 +36,17 @@ export default function setPass() {
 
 return (
     <>
-    <Box bg="gray.800" py={6} px={4} boxShadow="lg" width="100%">
-    <Container maxW="container.lg" textAlign="center">
-      <Heading color="darkgray">Insert Card</Heading>  
-    </Container>
-      </Box>
-      <Box bg="#222935" p={5} style={{ display: 'flex', justifyContent: 'center'}}>
-  <VStack spacing={3} align="stretch" bg="#222935" p={5} justifyContent="center">
+  <Box bg="gray.800" py={6} px={4} boxShadow="lg" width="100%" display="flex" alignItems="center" justifyContent="space-between">
+                  <Container maxW="container.lg" textAlign="center" display="flex" alignItems="center" justifyContent="center">
+                    <Box flex="1" textAlign="left"> 
+                      <Heading as="h1" color="darkgray">Summary</Heading>
+                    </Box>
+                  </Container>
+                </Box>
 
+     <Box bg="#222935" p={5} style={{ display: 'flex', justifyContent: 'center' }}>
+              <VStack spacing={6} align="stretch" bg="#222935" p={5} justifyContent="center" maxW="container.lg" width="100%">
         <form onSubmit={formik.handleSubmit}>
-        <Stack spacing={4}>
             <FormControl pb="5">
                 <FormLabel color="white">Password</FormLabel>
                 <Input color="white"
@@ -75,19 +62,20 @@ return (
 
               </p>
             )}
-           <Button type="button" onClick={formik.submitForm} marginTop="20px"colorScheme='gray.800' variant='ghost' color='white' sx={{'&:hover': {backgroundColor: 'white', color: '#222935' },}}>Confirm</Button>
-        </Stack>
+            <Button type="submit" colorScheme='gray.800' variant='ghost' color='white' sx={{
+                '&:hover': {
+                  backgroundColor: 'white',
+                  color: '#222935',},}}>Submit</Button>
+        
     </form>
 
     </VStack>
     </Box>
-
-    <Box bg="gray.800" color="darkgray" py={6}>
-      <Container maxW="container.lg">
-        <Text textAlign="center">&copy; 2023 Syaidina Arafhan & Atthariq Maulana. All rights reserved.</Text>
-      </Container>
-    </Box>
-    <p>Password : {pass}</p>
+               <Box bg="gray.800" color="darkgray" py={6}>
+                    <Container maxW="container.lg">
+                      <Text textAlign="center">&copy; 2023 Syaidina Arafhan & Atthariq Maulana. All rights reserved.</Text>
+                    </Container>
+                  </Box>
     </>
     )
 }

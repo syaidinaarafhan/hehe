@@ -4,7 +4,6 @@ import { useToast, Text , Box, VStack, Container, Heading} from '@chakra-ui/reac
 import { useEffect, useState } from 'react';
 import { axiosInstance } from '@/lib/axios';
 import { Formik, Form, Field } from "formik";
-import { HamburgerIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
 import Card from "@/components/card";
 import ApprovalCodeForm from '@/components/apprCode';
 
@@ -27,15 +26,13 @@ export default function approvalCode () {
         <>
         <Box bg="gray.800" py={6} px={4} boxShadow="lg" width="100%">
     <Container maxW="container.lg" textAlign="center">
-      <Heading color="darkgray">OFFLINE</Heading>  
+      <Heading color="darkgray">Offline</Heading>  
     </Container>
       </Box>
 
 <Card />
-<Box bg="#222935" p={5} style={{ display: 'flex', justifyContent: 'center'}}>
-  <VStack spacing={3} align="stretch" bg="#222935" p={5} justifyContent="center">
-            <ApprovalCodeForm onTransactionFound={handleAppr} />
-            <Box bg="#222935" p={10} style={{ display: 'flex', justifyContent: 'center'}}>
+
+<Box bg="#222935" p={10} style={{ display: 'flex', justifyContent: 'center'}}>
             <Box bg="gray.800" color="white" py={4}>
               <Container maxW="container.lg">
             <Text textAlign="left" mb={6}>
@@ -48,6 +45,9 @@ export default function approvalCode () {
               </Container>
             </Box>
             </Box>
+<Box bg="#222935" p={5} style={{ display: 'flex', justifyContent: 'center'}}>
+  <VStack spacing={3} align="stretch" bg="#222935" p={5} justifyContent="center">
+            <ApprovalCodeForm onTransactionFound={handleAppr} />
           </VStack>
         </Box>
 
