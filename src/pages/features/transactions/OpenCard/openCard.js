@@ -21,17 +21,43 @@ export default function InsertCard() {
 
   const [wrongPinAttempts, setWrongPinAttempts] = useState(0);
 
-  useEffect(() => {
-    axiosInstance.get('/api/getData')
-    .then(response => {
-        setIsiKartu(response.data.isiKartu);
-    })
-    .catch(error => {
-        console.error('Error fetching data:', error);
+  const [userCard, setUserCard] = useState(null);
+
+  const fetchCards = () => {
+    axiosInstance
+      .get('/cards')
+      .then((response) => {
+        setUserCard(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
       });
+  };
+
+  useEffect(() => {
+    fetchCards();
   }, []);
 
-  const pin1 = isiKartu?.pin ?? 'Data gaada'
+  const renderCard = () => {
+    if (userCard) {
+      return (
+        <div>
+          {userCard.map((card) => (
+            <div key={card.id}>
+              <div>pin = {card.pin}</div>
+              <div>nomor kartu = {card.noKartu}</div>
+              <div>exp Kartu = {card.cardExp}</div>
+              <div>Limit Debit = {card.nominalLimit}</div>
+              <div>Limit Deposit = {card.deposit}</div>
+            </div>
+          ))}
+        </div>
+      );
+    }
+  };
+
+  const pin = userCard && userCard.length > 0 ? userCard[0].pin : null;
+  const limitDebit = userCard && userCard.length > 0 ? userCard[0].nominalLimit : null;
 
   const toast = useToast();
 
@@ -42,39 +68,49 @@ export default function InsertCard() {
       amount: "",
     },
     onSubmit: async (values) => {
-      if (!formik.values.pin) {
-        toast({
-          title: "PIN harus diisi",
-            status: "error",
-        });
-      }else if (values.pin !== pin1) {
-        setWrongPinAttempts(wrongPinAttempts + 1);
-    if (wrongPinAttempts >= 2) {
-      toast({
-        title: "Percobaan PIN sudah mencapai batas. Silakan coba lagi nanti.",
-        status: "error",
-      });
-      router.push('/');
-    } else {
-      toast({
-        title: "PIN tidak sesuai. Percobaan ke-" + (wrongPinAttempts + 1),
-        status: "error",
-      });
-    }
-      }else{
-        const { amount} = formik.values;
-      CreateProduct({
-        amount: parseInt(amount),
-      });
 
-      toast({
-        title: "Transaction done",
-        status: "success",
-      });
-      formik.setValues({
-        amount: "",
-      });
-      setModalOpen(false);
+      if (formik.values.amount > limitDebit) {
+        setModalOpen(false);
+        toast({
+          title: "Limit Debit Anda Sudah Tercapai",
+          status: "warning"
+      })
+      }else {
+
+        if (!formik.values.pin) {
+          toast({
+            title: "PIN harus diisi",
+              status: "error",
+          });
+        }else if (values.pin !== pin.toString()) {
+          setWrongPinAttempts(wrongPinAttempts + 1);
+      if (wrongPinAttempts >= 2) {
+        toast({
+          title: "Percobaan PIN sudah mencapai batas. Silakan coba lagi nanti.",
+          status: "error",
+        });
+        router.push('/dashboard');
+      } else {
+        toast({
+          title: "PIN tidak sesuai. Percobaan ke-" + (wrongPinAttempts + 1),
+          status: "error",
+        });
+      }
+        }else{
+          const { amount} = formik.values;
+        CreateProduct({
+          amount: parseInt(amount),
+        });
+  
+        toast({
+          title: "Transaction done",
+          status: "success",
+        });
+        formik.setValues({
+          amount: "",
+        });
+        setModalOpen(false);
+        }
       }
     },
   });
@@ -120,14 +156,13 @@ export default function InsertCard() {
 <VStack spacing={3} align="stretch" bg="#222935" p={5} justifyContent="center">
 
 
-      {/* <ReceiptModal
+      <ReceiptModal
         isOpen={insertCardData !== null}
         onClose={() => {
-          setReceiptData(0);
-          router.push('/');
+          router.push('/dashboard');
         }}
         modalReceiptData={insertCardData}
-      /> */}
+      />
     <Box pb="50%">
     <Formik
       initialValues={{ amount: '' }}
@@ -184,7 +219,7 @@ export default function InsertCard() {
                   value={formik.values.pin}
                 />
               </FormControl>
-              <Button type="submit" marginTop="20px" colorScheme='gray.800' variant='ghost' color='white' sx={{'&:hover': {backgroundColor: 'white', color: '#222935' },}}>Konfirmasi</Button>
+              <Button type="submit" onClick={formik.submitForm} marginTop="20px" colorScheme='gray.800' variant='ghost' color='white' sx={{'&:hover': {backgroundColor: 'white', color: '#222935' },}}>Konfirmasi</Button>
             </ModalBody>
           </ModalContent>
         </Modal>
@@ -192,7 +227,7 @@ export default function InsertCard() {
       </Box>
       <Box bg="gray.800" color="darkgray" py={6}>
     <Container maxW="container.lg">
-      <Text textAlign="center">&copy; 2023 Syaidina Arafhan & Atthariq Maulana. All rights reserved.</Text>
+      <Text textAlign="center">&copy; 2024 Syaidina Arafhan & Atthariq Maulana. All rights reserved.</Text>
     </Container>
   </Box>
     </>

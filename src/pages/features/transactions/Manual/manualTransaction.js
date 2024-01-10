@@ -122,7 +122,6 @@ import Card from "@/components/card";
         <ReceiptModal
           isOpen={insertCardData !== null}
           onClose={() => {
-            setReceiptData(0);
             router.push('/dashboard');
           }}
           modalReceiptData={insertCardData}
@@ -132,6 +131,7 @@ import Card from "@/components/card";
           <FormControl pb="5">
             <FormLabel color="white">Harga</FormLabel>
             <Input
+              color='white'
               type="number"
               onChange={handleFormInput}
               name="totalHarga"
@@ -146,7 +146,7 @@ import Card from "@/components/card";
       </Box>
       <Box bg="gray.800" color="darkgray" p={6}>
         <Container maxW="container.lg">
-          <Text textAlign="center">&copy; 2023 Syaidina Arafhan & Atthariq Maulana. All rights reserved.</Text>
+          <Text textAlign="center">&copy; 2024 Syaidina Arafhan & Atthariq Maulana. All rights reserved.</Text>
         </Container>
       </Box>
       </>

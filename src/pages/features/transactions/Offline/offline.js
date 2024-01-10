@@ -130,7 +130,6 @@ import { useOfflineTransaksi } from '../../Mutate/useOfflineTransaksi';
         <ReceiptModal
           isOpen={insertCardData !== null}
           onClose={() => {
-            setReceiptData(0);
             router.push('/dashboard');
           }}
           modalReceiptData={insertCardData}
@@ -155,6 +154,7 @@ import { useOfflineTransaksi } from '../../Mutate/useOfflineTransaksi';
             <FormControl pb="5">
               <FormLabel color="white">Masukan Nominal</FormLabel>
               <Input
+                color="white"
                 type="number"
                 onChange={handleFormInput}
                 name="amount"
@@ -204,7 +204,7 @@ import { useOfflineTransaksi } from '../../Mutate/useOfflineTransaksi';
 
         <Box bg="gray.800" color="darkgray" py={6}>
     <Container maxW="container.lg">
-      <Text textAlign="center">&copy; 2023 Syaidina Arafhan & Atthariq Maulana. All rights reserved.</Text>
+      <Text textAlign="center">&copy; 2024 Syaidina Arafhan & Atthariq Maulana. All rights reserved.</Text>
     </Container>
   </Box>
       </>

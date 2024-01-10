@@ -114,7 +114,7 @@ export default function register() {
   
   <Box bg="gray.800" color="darkgray" py={6}>
   <Container maxW="container.lg">
-    <Text textAlign="center">&copy; 2023 Syaidina Maulana. All rights reserved.</Text>
+    <Text textAlign="center">&copy; 2024 Syaidina Maulana. All rights reserved.</Text>
   </Container>
 </Box>
 

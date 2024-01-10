@@ -14,15 +14,19 @@ const ApprovalCodeForm = ({ onTransactionFound }) => {
 
       if (transactionData) {
         toast({
-          title: 'Transaction Found',
+          title: 'Transaksi Ditemukan',
           status: 'success',
-          duration: 1000,
           isClosable: true,
         });
 
         onTransactionFound(transactionData);
       }
     } catch (error) {
+      toast({
+        title: 'Transaksi Tidak Ditemukan',
+        status: 'error',
+        isClosable: true,
+      });
       console.error("Error fetching transaction data:", error);
     }
   };

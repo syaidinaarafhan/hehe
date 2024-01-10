@@ -10,13 +10,8 @@ import ApprovalCodeForm from '@/components/apprCode';
 export default function approvalCode () {
 
     const router = useRouter();
-    const toast = useToast();
-    const [appro, setAppro] = useState(null)
 
     const handleAppr = (transactionData) => {
-        setAppro(transactionData);
-    
-        // Delay 1 detik sebelum meroute
         setTimeout(() => {
           router.push('offline');
         }, 1000);
@@ -54,7 +49,7 @@ export default function approvalCode () {
         
         <Box bg="gray.800" color="darkgray" py={6}>
       <Container maxW="container.lg">
-        <Text textAlign="center">&copy; 2023 Syaidina Arafhan & Atthariq Maulana. All rights reserved.</Text>
+        <Text textAlign="center">&copy; 2024 Syaidina Arafhan & Atthariq Maulana. All rights reserved.</Text>
       </Container>
     </Box>
         </>

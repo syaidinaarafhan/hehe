@@ -10,26 +10,61 @@ export default function cardI () {
 
     const [isiKartu, setIsiKartu] = useState(null);
 
-    useEffect(() => {
-        axiosInstance.get('/api/getData')
-        .then(response => {
-            setIsiKartu(response.data.isiKartu);
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-          });
-      }, []);
+    const [userCard, setUserCard] = useState(null);
 
-    const kartu1 = isiKartu?.namaKartu ?? 'Data gaada'
+    const toast = useToast()
+
+    const fetchCards = () => {
+      axiosInstance
+        .get('/cards')
+        .then((response) => {
+          setUserCard(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+
+    useEffect(() => {
+      fetchCards();
+    }, []);
+
+    const renderCard = () => {
+      if (userCard) {
+        return (
+          <div>
+            {userCard.map((card) => (
+              <div key={card.id}>
+                <div>pin = {card.pin}</div>
+                <div>nomor kartu = {card.noKartu}</div>
+                <div>exp Kartu = {card.cardExp}</div>
+                <div>Limit Debit = {card.nominalLimit}</div>
+                <div>Limit Deposit = {card.deposit}</div>
+              </div>
+            ))}
+          </div>
+        );
+      }
+    };
+
+    const noKartu = userCard && userCard.length > 0 ? userCard[0].noKartu : null;
 
     const formik = useFormik({
         initialValues: {
             kartu: '',
         },onSubmit: values => {
-            if (values.kartu == kartu1) {
+            if (values.kartu == noKartu.toString()) {
+                toast({
+                    title: 'No Kartu Benar',
+                    status: 'success'
+                })
                 router.push('approvalC');
+
             }else{
-            router.push('/');
+                toast({
+                    title: 'No Kartu Salah',
+                    status: 'error'
+                })
             }
         }
     });
@@ -84,7 +119,7 @@ export default function cardI () {
 
         <Box bg="gray.800" color="darkgray" py={6}>
       <Container maxW="container.lg">
-        <Text textAlign="center">&copy; 2023 Syaidina Arafhan & Atthariq Maulana. All rights reserved.</Text>
+        <Text textAlign="center">&copy; 2024 Syaidina Arafhan & Atthariq Maulana. All rights reserved.</Text>
       </Container>
     </Box>
     

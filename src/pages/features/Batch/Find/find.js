@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import {Text,  Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, Box, VStack,Container, Heading} from "@chakra-ui/react";
+import {Text,  Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, ModalFooter, Box, VStack,Container, Heading} from "@chakra-ui/react";
 import { Formik, Form, Field } from "formik";
 import { useRouter } from "next/router";
 import { axiosInstance } from "@/lib/axios";
@@ -14,10 +14,46 @@ export default function Void() {
   const [isModalOpen, setModalOpen] = useState(false);
 
   const handleTransactionFound = (data) => {
-    // Handle the found transaction data
     setTransactionData(data);
     setModalOpen(true);
   };
+
+  const [userCard, setUserCard] = useState(null);
+
+  const fetchCards = () => {
+    axiosInstance
+      .get('/cards')
+      .then((response) => {
+        setUserCard(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    fetchCards();
+  }, []);
+
+  const renderCard = () => {
+    if (userCard) {
+      return (
+        <div>
+          {userCard.map((card) => (
+            <div key={card.id}>
+              <div>pin = {card.pin}</div>
+              <div>nomor kartu = {card.noKartu}</div>
+              <div>exp Kartu = {card.cardExp}</div>
+              <div>Limit Debit = {card.nominalLimit}</div>
+              <div>Limit Deposit = {card.deposit}</div>
+            </div>
+          ))}
+        </div>
+      );
+    }
+  };
+
+  const pin = userCard && userCard.length > 0 ? userCard[0].pin : null;
 
   return (
 <>
@@ -75,7 +111,7 @@ export default function Void() {
 
     <Box bg="gray.800" color="darkgray" py={6}>
       <Container maxW="container.lg">
-       <Text textAlign="center">&copy; 2023 Syaidina Arafhan & Atthariq Maulana. All rights reserved.</Text>
+       <Text textAlign="center">&copy; 2024 Syaidina Arafhan & Atthariq Maulana. All rights reserved.</Text>
       </Container>
     </Box>
     </>

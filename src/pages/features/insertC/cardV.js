@@ -16,17 +16,42 @@ import ReceiptModal from "@/components/receipt";
 
     const [wrongPinAttempts, setWrongPinAttempts] = useState(0);
 
-    useEffect(() => {
-      axiosInstance.get('/api/getData')
-      .then(response => {
-          setIsiKartu(response.data.isiKartu);
-      })
-      .catch(error => {
-          console.error('Error fetching data:', error);
+    const [userCard, setUserCard] = useState(null);
+
+    const fetchCards = () => {
+      axiosInstance
+        .get('/cards')
+        .then((response) => {
+          setUserCard(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
         });
+    };
+
+    useEffect(() => {
+      fetchCards();
     }, []);
 
-  const pin1 = isiKartu?.pin ?? 'Data gaada'
+    const renderCard = () => {
+      if (userCard) {
+        return (
+          <div>
+            {userCard.map((card) => (
+              <div key={card.id}>
+                <div>pin = {card.pin}</div>
+                <div>nomor kartu = {card.noKartu}</div>
+                <div>exp Kartu = {card.cardExp}</div>
+                <div>Limit Debit = {card.nominalLimit}</div>
+                <div>Limit Deposit = {card.deposit}</div>
+              </div>
+            ))}
+          </div>
+        );
+      }
+    };
+
+    const pin = userCard && userCard.length > 0 ? userCard[0].pin : null;
 
     const toast = useToast();
     const [isModalOpen, setModalOpen] = useState(false);
@@ -46,7 +71,7 @@ import ReceiptModal from "@/components/receipt";
             title: "PIN harus diisi",
               status: "error",
           });
-        }else if (values.pin !== pin1) {
+        }else if (values.pin !== pin.toString()) {
           setWrongPinAttempts(wrongPinAttempts + 1);
       if (wrongPinAttempts >= 2) {
         toast({
@@ -122,7 +147,6 @@ import ReceiptModal from "@/components/receipt";
         <ReceiptModal
           isOpen={insertCardData !== null}
           onClose={() => {
-            setReceiptData(0);
             router.push('../../dashboard');
           }}
           modalReceiptData={insertCardData}
@@ -185,7 +209,7 @@ import ReceiptModal from "@/components/receipt";
 
         <Box bg="gray.800" color="darkgray" py={6}>
     <Container maxW="container.lg">
-      <Text textAlign="center">&copy; 2023 Syaidina Arafhan & Atthariq Maulana. All rights reserved.</Text>
+      <Text textAlign="center">&copy; 2024 Syaidina Arafhan & Atthariq Maulana. All rights reserved.</Text>
     </Container>
   </Box>
 

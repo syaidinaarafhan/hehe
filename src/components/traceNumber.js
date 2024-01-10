@@ -13,12 +13,18 @@ const FindTransactionForm = ({ onTransactionFound }) => {
 
       if (transactionData) {
         toast({
-          title: 'Transaction Found',
+          title: 'Transaksi Ditemukan',
           status: 'success',
           isClosable: true,
         });
 
         onTransactionFound(transactionData);
+      }else {
+        toast({
+          title: 'Transaksi Tidak Ditemukan',
+          status: 'error',
+          isClosable: true,
+        });
       }
     } catch (error) {
       console.error("Error fetching transaction data:", error);
