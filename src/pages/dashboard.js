@@ -5,7 +5,7 @@ import Cookies from 'js-cookie';
 import Card from "@/components/card";
 
 
-export default function dashboard() {
+export default function Dashboard() {
 
   const [userData, setUserData] = useState({name : "Syaidina Maulana", idKartu : "12083827", pin : "244345", nomorKartu: "5785-7685-6451-1148", expKartu: "31-12-2024" });
   const [userCards, setUserCards] = useState(null);

@@ -6,7 +6,7 @@ import Card from "@/components/card";
 import ReceiptModal from "@/components/receipt";
 import { useRouter } from 'next/router';
 import { useFormik } from "formik";
-import { useOfflineTransaksi } from '../../Mutate/useOfflineTransaksi';
+import { useMutation } from "@tanstack/react-query";
   
   export default function InsertCard() {
 
@@ -21,6 +21,22 @@ import { useOfflineTransaksi } from '../../Mutate/useOfflineTransaksi';
     const [wrongPinAttempts, setWrongPinAttempts] = useState(0);
 
     const [userCard, setUserCard] = useState(null);
+
+    const useOfflineTransaksi = ({ onSuccess }) => {
+      return useMutation({
+        mutationFn: async (body) => {
+    
+          try {
+            const transaksiResponse = await axiosInstance.post("/offline", body);
+          return transaksiResponse;
+          } catch (error) {
+            console.log("nih errornya "+error)
+          }
+          
+        },
+        onSuccess,
+      });
+    };
 
     const fetchCards = () => {
       axiosInstance

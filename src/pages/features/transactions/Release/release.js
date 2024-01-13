@@ -1,11 +1,10 @@
 import { useToast, FormControl, FormLabel, Input, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, Link, Box, VStack, Image, Container, Heading, Text, Grid, GridItem} from "@chakra-ui/react";
 import { useFormik } from "formik";
-import { useRelease } from "../../Mutate/useRelease";
 import { useEffect, useState } from "react";
 import { axiosInstance } from "@/lib/axios";
 import { useRouter } from "next/router";
 import Card from "@/components/card";
-import ReceiptModal from "@/components/receipt";
+import { useMutation } from "@tanstack/react-query";
 
 export default function InsertCard() {
   const router = useRouter();
@@ -13,6 +12,22 @@ export default function InsertCard() {
   const [isiKartu, setIsiKartu] = useState(null);
   const [wrongPinAttempts, setWrongPinAttempts] = useState(0);
   const [userCard, setUserCard] = useState(null);
+
+  const useRelease = ({ onSuccess }) => {
+    return useMutation({
+      mutationFn: async (body) => {
+  
+        try {
+          const transaksiResponse = await axiosInstance.post("/release", body);
+        return transaksiResponse;
+        } catch (error) {
+          console.log("nih errornya "+error)
+        }
+        
+      },
+      onSuccess,
+    });
+  };
 
   const fetchCards = () => {
     axiosInstance

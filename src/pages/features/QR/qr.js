@@ -1,6 +1,6 @@
 import { useToast, FormControl, FormLabel, Input, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, Link, Box, VStack, Image, Container, Heading, Text, Grid, GridItem} from "@chakra-ui/react";
 import { useFormik } from "formik";
-import { useCreateProduct } from "@/pages/features/Mutate/useCreateTransaksi";
+import { useMutation } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import QRCode from 'qrcode.react';
@@ -85,6 +85,22 @@ import ReceiptModal from "@/components/receipt";
   </ModalContent>
         </Modal>
       );
+    };
+
+    const useCreateProduct = ({ onSuccess }) => {
+      return useMutation({
+        mutationFn: async (body) => {
+    
+          try {
+            const transaksiResponse = await axiosInstance.post("/insertCard", body);
+          return transaksiResponse;
+          } catch (error) {
+            console.log("nih errornya "+error)
+          }
+          
+        },
+        onSuccess,
+      });
     };
   
     const { mutate: CreateProduct, isLoading: createProductsIsLoading } = useCreateProduct({

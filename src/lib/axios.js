@@ -1,8 +1,11 @@
 import axios from "axios";
 
 export const axiosInstance = axios.create({
-    baseURL: "http://localhost:2000/transaksis"
+    baseURL: "http://159.223.59.203:2000/transaksis"
 })
+
+//http://159.223.59.203:2000/transaksis
+//http://localhost:2000/transaksis
 
 axiosInstance.interceptors.request.use(
     (config) => {

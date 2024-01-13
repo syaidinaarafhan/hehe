@@ -5,7 +5,7 @@ import { useToast, FormControl, FormLabel, Stack, Input, Button, Modal, ModalOve
 import { useRouter } from "next/router";
 import { HamburgerIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
 
-export default function setPass() {
+export default function SetPass() {
 
     const router = useRouter();
     const toast = useToast();

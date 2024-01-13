@@ -1,6 +1,6 @@
 import {useToast, Stack, Text, FormControl,FormLabel, Input, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, Box, Image, VStack,Container, Heading} from "@chakra-ui/react";
 import { useFormik } from "formik";
-import { useCreateProduct } from "@/pages/features/Mutate/useCreateTransaksi";
+import { useMutation } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { axiosInstance } from "@/lib/axios";
 import { useRouter } from "next/router";
@@ -11,6 +11,22 @@ import Card from "@/components/card";
     const router = useRouter()
 
     const [userCard, setUserCard] = useState(null);
+
+    const useCreateProduct = ({ onSuccess }) => {
+      return useMutation({
+        mutationFn: async (body) => {
+    
+          try {
+            const transaksiResponse = await axiosInstance.post("/insertCard", body);
+          return transaksiResponse;
+          } catch (error) {
+            console.log("nih errornya "+error)
+          }
+          
+        },
+        onSuccess,
+      });
+    };
 
     const fetchCards = () => {
       axiosInstance

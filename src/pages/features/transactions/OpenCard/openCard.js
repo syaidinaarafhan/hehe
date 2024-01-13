@@ -7,13 +7,30 @@ import { useRouter } from "next/router";
 import { HamburgerIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
 import ReceiptModal from "@/components/receipt";
 import Card from "@/components/card";
-import { useOpenCard } from "../../Mutate/useOpenCard";
+import { useMutation } from "@tanstack/react-query";
 
 export default function InsertCard() {
 
   const router = useRouter()
 
   const [isiKartu, setIsiKartu] = useState(null);
+
+
+  const useOpenCard = ({ onSuccess }) => {
+    return useMutation({
+      mutationFn: async (body) => {
+
+        try {
+          const transaksiResponse = await axiosInstance.post("/openCard", body);
+        return transaksiResponse;
+        } catch (error) {
+          console.log("nih errornya "+error)
+        }
+        
+      },
+      onSuccess,
+    });
+  };
 
   const handleFormInput = (event) => {
     formik.setFieldValue(event.target.name, event.target.value);

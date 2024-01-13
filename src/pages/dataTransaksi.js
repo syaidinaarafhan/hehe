@@ -1,7 +1,8 @@
 import { axiosInstance } from "@/lib/axios";
 import { useEffect, useState } from 'react';
 import { Box, VStack, Container, Heading, Text} from "@chakra-ui/react";
-export default function dataTransaksi() {
+
+export default function DataTransaksi() {
     const [transactions, setTransactions] = useState([]);
     const [statusText, setStatusText] = useState('');
     useEffect(() => {

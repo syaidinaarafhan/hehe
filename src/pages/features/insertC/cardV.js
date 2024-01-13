@@ -1,22 +1,36 @@
 import { useToast, FormControl, FormLabel, Input, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, Link, Box, VStack, Image, Container, Heading, Text, Grid, GridItem} from "@chakra-ui/react";
 import { useFormik } from "formik";
-import { useCreateProduct } from "@/pages/features/Mutate/useCreateTransaksi";
 import { useEffect, useState } from "react";
 import { axiosInstance } from "@/lib/axios";
 import { useRouter } from "next/router";
 import { HamburgerIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
 import Card from '@/components/card'
+import { useMutation } from "@tanstack/react-query";
 import ReceiptModal from "@/components/receipt";
   
   export default function InsertCard() {
 
     const router = useRouter()
-
     const [isiKartu, setIsiKartu] = useState(null);
-
+    const [insertCardData, setReceiptData] = useState(null);
     const [wrongPinAttempts, setWrongPinAttempts] = useState(0);
-
     const [userCard, setUserCard] = useState(null);
+
+    const useCreateProduct = ({ onSuccess }) => {
+      return useMutation({
+        mutationFn: async (body) => {
+    
+          try {
+            const transaksiResponse = await axiosInstance.post("/insertCard", body);
+          return transaksiResponse;
+          } catch (error) {
+            console.log("nih errornya "+error)
+          }
+          
+        },
+        onSuccess,
+      });
+    };
 
     const fetchCards = () => {
       axiosInstance
@@ -60,37 +74,45 @@ import ReceiptModal from "@/components/receipt";
       formik.setFieldValue(event.target.name, event.target.value);
     };
   
-    const formik = useFormik({
-      initialValues: {
-        totalHarga: "",
-        pin: "",
-      },
-      onSubmit: async (values) => {
-        if (!formik.values.pin) {
+  const { mutate: createProduct, isLoading: createProductIsLoading } = useCreateProduct({
+    onSuccess: (receiptData) => {
+      console.log("Data Receipt:", receiptData);
+      setReceiptData(receiptData.data.data);
+      refetchProducts();
+    },
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      totalHarga: "",
+      pin: "",
+    },
+    onSubmit: async (values) => {
+      if (!formik.values.pin) {
+        toast({
+          title: "PIN harus diisi",
+          status: "error",
+        });
+      } else if (values.pin !== pin.toString()) {
+        setWrongPinAttempts(wrongPinAttempts + 1);
+        if (wrongPinAttempts >= 2) {
           toast({
-            title: "PIN harus diisi",
-              status: "error",
+            title: "Percobaan PIN sudah mencapai batas. Silakan coba lagi nanti.",
+            status: "error",
           });
-        }else if (values.pin !== pin.toString()) {
-          setWrongPinAttempts(wrongPinAttempts + 1);
-      if (wrongPinAttempts >= 2) {
-        toast({
-          title: "Percobaan PIN sudah mencapai batas. Silakan coba lagi nanti.",
-          status: "error",
-        });
-        router.push('/');
+          router.push('/');
+        } else {
+          toast({
+            title: "PIN tidak sesuai. Percobaan ke-" + (wrongPinAttempts + 1),
+            status: "error",
+          });
+        }
       } else {
-        toast({
-          title: "PIN tidak sesuai. Percobaan ke-" + (wrongPinAttempts + 1),
-          status: "error",
-        });
-      }
-        }else{
-          const { totalHarga} = formik.values;
-        CreateProduct({
+        const { totalHarga } = formik.values;
+        createProduct({
           totalHarga: parseInt(totalHarga),
         });
-  
+
         toast({
           title: "Transaction done",
           status: "success",
@@ -99,26 +121,12 @@ import ReceiptModal from "@/components/receipt";
           totalHarga: "",
         });
         setModalOpen(false);
-        }
-      },
-    });
-
-    const [insertCardData, setReceiptData] = useState(null);
-  
-    const { mutate: CreateProduct, isLoading: createProductsIsLoading } =
-    useCreateProduct({
-      onSuccess: (receiptData) => {
-        console.log("Data Receipt:", receiptData);
-        setReceiptData(receiptData.data.data);
-        refetchProducts();
-      },      
-    });  
+      }
+    },
+  });
   
     return (
       <>
-
-    
-      
     <Box bg="gray.800" py={6} px={4} boxShadow="lg" width="100%">
   <Container maxW="container.lg" textAlign="center">
     <Heading color="darkgray">SALE</Heading>  
@@ -147,7 +155,7 @@ import ReceiptModal from "@/components/receipt";
         <ReceiptModal
           isOpen={insertCardData !== null}
           onClose={() => {
-            router.push('../../dashboard');
+            router.push('/dashboard');
           }}
           modalReceiptData={insertCardData}
         />

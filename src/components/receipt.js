@@ -8,7 +8,6 @@ const ReceiptModal = ({ isOpen, onClose, modalReceiptData }) => (
       <Heading color="white" as= 'h5' textAlign="center" >Receipt</Heading>
       <ModalCloseButton />
       <ModalBody marginBottom="10px" color="white" alignItems="left" >
-        <Text textAlign='center'>{modalReceiptData ? modalReceiptData.kartu : ''}</Text>
         <Text marginTop='5'>traceNumber : {modalReceiptData ? modalReceiptData.traceNumber : 'Data tidak tersedia'}</Text>
         <Text>Tanggal : {modalReceiptData ? modalReceiptData.date : 'Data tidak tersedia'}</Text>
         <Text fontWeight= "Bold" textAlign= "right" fontSize= '1.2em' marginTop= '5'>Total Transaksi: {modalReceiptData ? modalReceiptData.totalHarga : 'Rp.2000'}</Text>

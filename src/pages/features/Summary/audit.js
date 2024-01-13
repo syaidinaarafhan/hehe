@@ -4,7 +4,7 @@ import { useToast, FormControl, FormLabel, Input, Button, Modal, ModalOverlay, M
 import { useEffect, useState } from 'react';
 
 
-export default function audit() {
+export default function Audit() {
   const [transactions, setTransactions] = useState([]);
 
 

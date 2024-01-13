@@ -4,7 +4,7 @@ import { Button, Container, Heading, FormControl, FormLabel, Input, Stack, Text 
 import { useEffect, useState } from 'react';
 import { axiosInstance } from '@/lib/axios';
 
-export default function cardI () {
+export default function CardI () {
     const router = useRouter();
 
     const [isiKartu, setIsiKartu] = useState(null);
